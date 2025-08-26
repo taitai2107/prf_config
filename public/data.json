@@ -1,0 +1,102 @@
+{
+  "profile": {
+    "name": "Nguyễn Công Khánh Tài",
+    "bio": "gamer, coder, designer, creator",
+    "description": "Người chơi game",
+    "avatar": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAAABgUHAQMEAgj/xABDEAABAwMCAwYDBQUGBAcAAAABAgMEAAURBiESMUEHEyJRYYEUcZEyM0JSoRUjcrHBgqKy0eHwFhdi40NFU2SDk8L/xAAZAQADAQEBAAAAAAAAAAAAAAAAAgMBBAX/xAAmEQADAAICAgICAQUAAAAAAAAAAQIDESExEkEEYRMiMzJCcbHB/9oADAMBAAIRAxEAPwC8KKKKACiiigDBqD1Nqa3achpl3OR3TJWEDCSoqJ8gPLmflUtJc4U8OcZHOqauk1OqL3IuD3itzHFGgpVyUOTjnvyHoK48uR1fhPrspMrtlyxn0vNpWlQUFDII5EVvqvuyq6LXbX7NKc45FrcDWVc1NK3bP02/s0+uOhtJJ6CnxZf1av0LU6ZsoqvLt2t6bhMr7iSqQ+GlqS2hpX2xyQT0JNT2mdY2vUMJUmFKbUlrZ0K8KkHzIPIetM86XLTN8KGQ1B6i1Hb7BHbkXKQGGVuBtJ4SrJPoOnnUu66ODY8+VVJfZjd91VLcdw5AtaVRGE9FvKH71XsMJ+tRy5Hd+EvjtmxK7ZbcV9EhpLjagpKgCFDkQeorcKr/ALK7mtVodtMhZVItTvc5J3U0cls/Tb2p/Sciq4Mnlua7QtLTM0UUV0ChRRRQAUUUUAFFFFABWDWaKxgJXaVcX4mnnGYiyiTPdRDaUOaSs4J9hmq7vARAYbt8VPC2lPAkD8qdqtXV9gRfbd8OX1R3m3UvR3kjJbcTyOOo51VTBcuMiczdkMGRBkqYW6wSlK8AeLflXn4e6l97LdzwSOiZio+tLer8NyhONLPmpohQP+Ku3tlvd4Y/Z1mth7tV1WW0radwtXJJQRjYErTuD0NQmkrnCReVXSZGuEhcNTjMGNCiKUgJOylqWfCSem9cmvLreZd4tuo27bMbatboW22+0hISniB8XCtRJONzgVvhTzb9f9H0atS9kq7Jpt64Iurb82Iz38mKEgAI6lO+dvXnilVrTeprRaouqG4C0wwUPIcJCvCCClSk8+EkA77VO6y7QId7+LftNqdhz7hGEWXJef4ssg54EJGwyQMnyrs/5gtS9JzLFBgXGRdro0llxK1hTKMNhB7pI3AwnOMczzrs4ZqeTXJabeqYq9Eu31h9TqGIZdKlDB4wnl03zVZWpxcJuBDWcrUnjkKJ3UtfiP6mmezXWxf8EM6bv705gGL3DypEVxAT/CrgA26f1pW0vIauURTrqm33Y7ymQ8NitKT4VEdCRXFghy62vYlIn9OzDa9dw8j9zdWVRnCPzoHEg/TiHvVvRyS2M1VnZxaV3uaNRzlo4YrzrEKOkbII8KlqJ5ny8qtVtPAkAU+Od59r0uRL6PdZrFFdxMKzWKKAM0ViigDNFFFABWp1wIG3OvbiglOTSB2j3+RHZYslqXw3S6HgSof+Az+Jz+grk+RmctRHbHidsjdS6imaiuEiy6fkqYisK7udPQd89W2z5+ZqKt1pj25txiMlLYSeJfEeIrV5knn867IZtthtCGI6v3TKdyBlS1Z3J8yTXtm0vSz8TdlraSrxfDNr4cfxqHP5A4+dGLFpaQ7fo5i44ealAeWa1OoDra2nCooWkpUCehrtYt9juUVxdpcaynKe/jO5KFepB3+RqNhPGRDZfUAC4gKOOQyKpUuROyJnaTtMhpwNRksuqSQlSCQATyOK67ZYrfbW0pYjp40r4w4oZWD08XP0rbIukZlfBxBZ68K0j+ZFbYktuUD3YII6H/Tal5G8qOsOuDYOLH9o1qCWw9xpCA6eZCRxH59a8PpLhYYK1IDz6G1KScEAnfHkenvUjLRpqG+1Bkx4TbzmChCmc8zgEqxtvtknc00x5Gb0RFol3bSTjq7ORMt7jpcegO/aBPMtq6H09KtLS+pIOoICZUFwlIPCttey2lflUKr642pdtQX4inHIqN3GFEqUgdVIJ3I8wc7cvKogvSrJcEX6yjjIA+KjpPhktdf7Xkajkx1NeU9/7G4rgvUb0VGWC7Rbxbo82E53kd9PEg/0PqOVSddOLIsk7JNa4CiiiqGBRRRQBmiivKjgVlPS2ByzHkoSpSlcKEAqUTyAFU5bZK7xOuep3xvLcMaCD+COk9PnTh2p3FyJpR5hhWJNycTCax5r2P6ZpZfVEtseJbw822iOyltIUoJzgY615uD96rK/fBbWpJXSdtZu9/KZGSzCaD3CDjiWokJ+gCj7imnWNgM3SV1g2mO38Y/GU21nHiJ6ZPLIyKR7FcnrLe1TmENvMvNBtxBXwkgHmDjcj+p9KcZWt4yYpXFiOuSMbNuKCE59Vb/yrumkkTrYvW+BN0npGW7eXm5GobuvBICcJVw8KcYGMJQMkiq21LIEOY2xLQfgWkpDTRJCHE4Gc+Zztg/1p3mSZNwmKm3B0OyCnhHCMJaT+VA6Dz6nr0xxzorU2Opl4ZSRt6GlqtsaeBKcu1vlxkGNbmWUgg54d9jy5VwypEMqW6tpCATnwp2T8qm3dKoYaDTDRwn7K21bn55rDWkhIQUSi4Ek7qUrB+WBW+SG2b9MTJExtxhpZcabSlxlxeSG3EqBSCeo25dKetYaYka8tEW5aZmIgyVoEebHUrhSsBQUUqx1QoHHntUVFjNRI7bDCAhtAwkCu61T5VomGTAWAVgB1pQyh0DlkdCPMfqKJvTFrksx20w3kDiaCVYxxI2qrrhCbtl4uFtZIU0w7lsdQlSQvGPQqI+WKb3NcAR8twFF8j7KnfAD88Z/SkhXfv3CXPmOpW/KXxqCAQkdB+gA9vrt0mhUb9C3E6f1MqzuKIt1zJdi5Ozb34k/I/zxVvtKCkg1ROoWFP25TkYgSoqhIYI5haDkVb2krsi9WOFcUbfEsJcKfJRHiHsc1zz+mVP0x6W1smqKKK7SQUUUUABOK5nHwpKgAcedbZH3ZxSFeJsq3ayjLcmPJiO9ykNKcPdlKipCvDyyFlBzz3rz/lZbdfjh64HmV2cHaCv4vV2mbdnwNF2YsfwjCf1JqLuinVvOd0hpY4t+8WQAPoa7NTLB7UGCo5SzaANuhW9gVxyUIeUsOpStJUSQoZB9qPjrWKUUrgjbbHY71chDcRLgJQfhl5Hv61IkgZOQMc81GXW6x7Uju2m0rkK3S0nb3V5ClaVKm3FZ+JdW4OjaAQge3X3zVm9DRid8jVJv1ujkp+IDqxsUsjjwfXGwqPc1Xn7iCsgf+q4E/oM1BpiPEABIAHQ7Vh2O62EcXD41hI386XyOhYIXZKK1PcDngjxUj1Klf5VoVqW8A+BmEoeXCof1rn+Cd80/WvJhveST71itD/ijXQxW/UUV5A+OcRGd68YKU/Xl+tTTa0OJCm1BSTyUDkGkBUZ5OxaPtWGVSIauKO47HVnfgOAfmORrVSJV8df2ssLNcMmC0txb4jokOKwOF1XhA9NqhYGpnEq4Li0Ck8nmRy+af8vpTIw81IaS6y4hxtX2VJOQac56ip7NERpLY4PgmWB17spIP6CmbsZkKFimwV5zBuTzCQeidlD+ZqDJwK7ezB50f8UuQUped+LCmUKVwhSuDbJ6dN6lm4nf2jFymPbmrbKzqL9gOzm27j3YWG1nAOc4SDy4sb454NTg3qoLb2XQJF1+P1nfESrlLeLio0d4NpWs78OT4jjpjHIVbrLaWmkNoBCUJCUgnOw9a7UybSXR7ooorRTW8MtqFU92tPF67xY5+wxHyR0JcUef/wBYq41/ZPyqj+1gqRqEqHLuo59srrkqE/ky/opD4ICyuyJWrYsi4SlKQxELbJUrdwo3Sg+eMkj5edMlxlphQ3pK0qUG0khI5qV0HucUoOLK2AyMJAIWCBuFDkc1I/tb9o21pCsB9CuF8Y/EOvyPOrZI8eUN2QNvD9weekzSe8ccJX6b4CflUhb3mn5M1oKCExwAkAfaPX/fpWYwDffAY2cJPvvTenR7kuw2h61IbTKTHBeQrIDvH4iSccwSfY1zVy2dypJIWFAcR4TkdDiuO6MuPRkpZUlLgdQUqUcJT4uZ9Ke4/Z3c1p45U5ls4+wy0VH5ZKh/KtMHSEO4zHrd+05bMttHE4xIihBKeWRkYUM9QTSzL2Y8kiytHdd4zIQpEppZQ6j8pH+856jFa9hVk3HQseRBj/FTFokxmUtmaFAKWlPLjyMH3ri/5Zkf+bvn/wCJH+VDlejFlkrlmahUp2K7hDyFeEfnT0IrtQkKyCpIwCQVdfSmi26Rta9RPRy+9c3GEFmQgxk92jO4Cl7YUNjsciumf2eOtnitcpxtAH3Mgd4PZYOR78VbUr0arQhPRUOp4m8BXmORrng3JyyzUOKJ+GcWEPt9Bnkoeo/WpO4wJlnuCWZ8dbPfq4dzlKlYzlJGx9fbao64w25rjTKjgLyVgHcgf6kVs7VaNrTnkexgjcgivfYzFQ0NS299IUEygktrGQUYOM/MVHWTiFrjoWrjUhHdlXnjb+WK92+adOaui3XJTCncMOaOgJPgX7HAozy6xtLs4l7Q6SOy/Tki5R7rb0PW+aw6l1K47nhyDndJyPpinwVxMr4V46Gu2qfEzrNG/aJUmmFFFFdQphXI1T/a3G4bnEdKcpdjlJ/sK/7gq4TSB2r28vWH4tAyqG4HFfwEcKvpkH2rmyvxyxQ8FOrcCUd5uU9cVy20pevjDQe7lmU+hlbh5ISpQHF8xmsR3gqO60ojICseoqPWeFtRJwACa7KSaDfJY+p7VY0tPXDSspL8dv8AcTm0ulzulYwle5yATkHpuDVq2IBFlgDYYjN8v4RSdpTRjEIW9+Mw2w2qGn4o7OfFlY8aFnyGQRjrTk4ERmm47I4GUJCUpG+ABsK8+zpXPCIzXOpRpWwOXBLHxDpWltpoqwFKPmfIDJqA7N9cK1fNkNT7c1HmRWuJDrZJCkKIBG/LcDrv7VOXW3xbxDXCntd6wsgkZxgjkQehrbpbTVq0+h025hSXHsd44tZUogchk9KVUta0UrHMzt9k660h5tTbqQtChhSVDIIobbQ02G0JCUJGAB0Fa0SWVOPIS4CpnAc/6Ns7n5b0CUwUsKS6gpfIDRByF7FW3nsCfagiVzrPtITpO9qtFttLL4b/AHshS3C2CtfiIGBz3yT60+2O5s3m0RLlHSpLclsOBKuYz0NL2qdC2e+XAXGX3zb3CErLS8BwDlnbn61KwkNwYzMSKA1HaSEoSPwgVtUiyxy53L5IjtUDKtNICwnvlS2u5+YVk/3QqlXS2j4l2Ld1vk1UeO8O7hMpdCFOgndeeuegHz60+XWxwtQuxDci44zGKldyDhLmfzdenvk0r3HRcBh92/arl958OpuT8QFFPdcJJ7lKeXBskDbPOthom20vEhUMfsm+3GzlSlJYe/dLVzUkpSoZ9cKH0rbc4KbjAkxFD7xlWD5KAOD9ag4N0cv18VcUAFyS8XnQD90nGAk+oHCKnbrJXCj/AAsZCnblNT3MSOB4sq2Kj5AVR8dkdcj9oS4uXXR9pmvHLq46UrPmpPhJ/Sm1PIfKl3SdnFksFvtaVcRjNBKyPxK5k/UmmMbVzfAn9rpdbFyMzRRRXpEwrkuMRqZFdYfQFtuIKFpI+0kjBFddYxU8kK5cmp6PmbVmj7npqY6gxH34PGEsSm0FSVBRwkKP4VchvUdDtzU11iEt9iI+84El2WrCGyQeFJA6E7cR+lfRerbYqfY5bDDSXHSnjZSpZSO8Scp3HLcCqLmWtgplW6cwWZRnJda71ISrcBtaT4lZwSFHffbpUseWtOb7RaZVDJBgP2qN+yxKuEdUb92pCJa0gHnlPCcYOcjHnU1bb7Nt7LceWFToraeELH36U+vRf6H51HsuQnIzDkKIzFPdhLzbLYSkODZQ28iCK8SJDTAHfLCc8s9ax6Znk5ZYNvMe4R0yYbyHmVclJ6HqCOhHUHlUo2gIAAqpmXHQoyrVNfjukgr7h0pS56LHI+hIqWavd4QkpTcnlbc3G2yR/dpPxlHlddjhJsEKU6+ZJdU1JVxOxi4Q04cAZI67ADHLblXuDYYEBxpUdDgSwCGGlOqU2zkY8CScDbb0G1VoYz8+4PqXIYUpqP3xdlrUVqOTtx8XhGx3A2223rstmrr1DWm3xmmpbHcIdTJmOK42eLOEKxuvl5g+ZpvF6F2Wc83xoIriMRwq2GRSI9edRyUjvbwlg/8AtIyEj+/xGlu4XjUz12YtRmSD8SeFh9+epptZ8j3aU4PpS/j+ysZGuEP2ur5Bsen5Tbk5DdxfRwxW23MOcedlAcwAcHPpVW3e43e+ssG+XBUphlQUI5w2hwjnkJA3O9N8TsruMsqVeLnDYLn3iYMfiWr5uL3NStp7M5ES7RH5EyJLhMKJLT0bKljhIwcnHXPKlnJD4h7BXPLrsXbS7JuDaYuibKvusY+OlN90w36j8x+VP2kdHsWNapch5yfdnh+/mOj+6gfhT6U1sQ22m0IQlKEoGEpQMAD0FdCUhIwBis/FlzcVwjndr0eGWwgZ61toortiFEqUSCiiinAKKKKAPLiONJTSLqPQyLrdkzWnWkHjS4tLrHGUrG3Gg5GCQBkHI2Bp8NYqGTB5PyT0xptz0Ve72cXWMoptWoD3ClFXBMihxQJOT4kkdSaj5XZpqCS4XHtQxUnGNoJx/iq4K1SPu6lli4h0q6+h1bbKCuFsvGktR223zJUeY1PCuFbKCggJ55HuKcLRb/iSXntmk7AZxxGoPVEoz+1GU0TlFuhpQn0UoBR/xfpTkwPhIDSUtrcPCNkDmTuaWKpxLfZtLkjLppyPMkBcd5DTg5tqaStI9QOYP6eldVlt0eJAS28hC3nlFbyl+IrVy8htgbDAxXUpLDafiwwrvScjAPESelYQhqSDIfjqbdQfxfaTjfam2YRV3t3w5DzP3ZO6fymk7ULaLlHW0CpPcgnvAccLn4d/OrJz8Yy604ytsEY4VjmDyNVdenkRro+088EJKUugKO3LhP8AhrZBb3wWv2cahXf9OR5MnHxjKixJH/Wnr7jB96c08qqvsViups9yuCklLM6XxMA9UpGOL3OfpVpo+yKn8bjJcLozIuT1RRRXeTCiiigAooooA85ozRRQAZozRRQAZrTJ+796KK5/l/w0bPZQ6yT2m6mJ3OU//mrMa+6QDy4RRRUl/Sv8F67PYoFFFAgDnVWyrNEv3aHbLfcAsx3GVKWlCuEqwScZrFFaumPH9RelvjssNtssNpbabSEoQkYCQOgruoopfgfxt/ZG+wzRmiiu4UM0ZoooAM0UUUAf/9k=",
+    "location": "Hà Nội - Việt Nam",
+    "email": "tainguyencongkhanh@gmail.com"
+  },
+  "links": [
+    {
+      "category": "Professional",
+      "items": [
+        {
+          "title": "Portfolio Website",
+          "url": "https://tainguyen.is-a-dev",
+          "description": "trang web cá nhân",
+          "icon": "Globe",
+          "color": "#3B82F6"
+        },
+        {
+          "title": "GitHub",
+          "url": "https://github.com/taitai2107",
+          "description": "Mã nguồn mở và dự án",
+          "icon": "Github",
+          "color": "#24292e"
+        },
+        {
+          "title": "LinkedIn",
+          "url": "https://www.linkedin.com/in/t%C3%A0i-nguy%E1%BB%85n-87288a380/",
+          "description": "null",
+          "icon": "Linkedin",
+          "color": "#0077b5"
+        }
+      ]
+    },
+    {
+      "category": "Creative",
+      "items": [
+       
+        {
+          "title": "YouTube",
+          "url": "https://www.youtube.com/@TaiNguyenCongKhanh",
+          "description": "game và công nghệ",
+          "icon": "Youtube",
+          "color": "#ff0000"
+        }
+      ]
+    },
+    {
+      "category": "Social",
+      "items": [
+        {
+          "title": "Facebook",
+          "url": "https://facebook.com/congt5t",
+          "description": "facebook cá nhân",
+          "icon": "Facebook",
+          "color": "#06447d"
+        },
+        {
+          "title": "Zalo",
+          "url": "https://zalo.me/0832597839",
+          "description": "Liên hệ qua Zalo",
+          "icon": "Zalo",
+          "color": "#1da1f2"
+        }
+      ]
+    }
+  ],
+  "socialMedia": [
+    {
+      "platform": "Youtobe",
+      "url": "https://www.youtube.com/@TaiNguyenCongKhanh",
+      "icon": "Youtube"
+    },
+    {
+      "platform": "Facebook", 
+      "url": "https://facebook.com/congt5t",
+      "icon": "Facebook"
+    },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/taitai2107",
+      "icon": "Github"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/t%C3%A0i-nguy%E1%BB%85n-87288a380/",
+      "icon": "Linkedin"
+    }
+  ],
+  
+  "settings": {
+    "siteName": "Nguyễn Công Khánh Tài",
+    "copyright": "© create by Tai Nguyen-2025.",
+    "enableAnalytics": true,
+    "theme": {
+      "primaryColor": "#3B82F6",
+      "accentColor": "#8B5CF6"
+    }
+  }
+}
