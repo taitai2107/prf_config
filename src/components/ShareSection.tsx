@@ -12,16 +12,16 @@ export function ShareSection({ isDark }: ShareSectionProps) {
 
   // Ảnh QR ngân hàng đã upload
   const qrImageUrl = 'https://res.cloudinary.com/doivdewue/image/upload/v1756226928/aceeec16-89c0-43f3-8098-4958d50ffcbc.png';
-  const copyLink = 'https://res.cloudinary.com/doivdewue/image/upload/v1756226727/Screenshot_2025-08-26_234048_ygjfrw.png';
+  const BankLink = 'MBBANK-21072001210703';
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(copyLink);
+      await navigator.clipboard.writeText(BankLink);
       setCopied(true);
       toast.success('Copy thành công');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      toast.error('Copy link thất bại');
+      toast.error('Copy thất bại');
     }
   };
 
@@ -62,7 +62,7 @@ export function ShareSection({ isDark }: ShareSectionProps) {
                 ? 'text-green-500'
                 : (isDark ? 'text-white' : 'text-slate-700')
             }`}>
-              {copied ? 'Copied!' : 'Copy Link'}
+              {copied ? 'Copied!' : 'COPPY MBBANK'}
             </span>
           </button>
 

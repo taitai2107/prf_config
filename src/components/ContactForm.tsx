@@ -17,13 +17,13 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name ||!formData.email|| !formData.message) {
       toast.error('vui lòng điền thông tin');
       return;
     }
 
-    const subject = `Contact from ${formData.name} via Profile Link`;
-    const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`;
+    const subject = `Tin nhắn liên hệ từ ${formData.name} website của bạn`;
+    const body = `Tên tôi là: ${formData.name}%0D%0ATừ email: ${formData.email}%0D%0A%0D%0ATin nhắn:%0D%0A${formData.message}`;
     const mailtoUrl = `mailto:tainguyencongkhanh@gmail.com?subject=${subject}&body=${body}`;
 
     
@@ -60,7 +60,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
             <input
               type="text"
               name="name"
-              placeholder="Tên"
+              placeholder="Bí danh"
               value={formData.name}
               onChange={handleChange}
               className={`w-full px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
@@ -71,7 +71,20 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
             />
           </div>
           
-         
+            <div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email của bạn"
+              value={formData.email}
+              onChange={handleChange}
+              className={`w-full px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
+                isDark
+                  ? 'bg-white/5 border-white/10 text-white placeholder-slate-400 focus:bg-white/10'
+                  : 'bg-white/50 border-white/30 text-slate-800 placeholder-slate-500 focus:bg-white/80'
+              }`}
+            />
+          </div>
           
           <div>
             <textarea

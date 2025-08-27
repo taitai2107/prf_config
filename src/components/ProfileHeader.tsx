@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, Contact2 } from 'lucide-react';
 
 interface ProfileHeaderProps {
   profile: {
@@ -38,12 +38,12 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
         {profile.bio}
       </p>
       
-      <p className={`max-w-md mx-auto leading-relaxed mb-4 ${
+      <p className={`flex items-center justify-center gap-2 ${
         isDark ? 'text-slate-400' : 'text-slate-500'
       }`}>
+        <Contact2 className="w-4 h-4" />
         {profile.description}
       </p>
-      
       <div className={`flex items-center justify-center gap-2 ${
         isDark ? 'text-slate-400' : 'text-slate-500'
       }`}>
