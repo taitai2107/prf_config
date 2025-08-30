@@ -1,3 +1,6 @@
+import { p } from "framer-motion/client";
+import { ProfileHeader } from "../components/ProfileHeader";
+
 export const translations = {
   vi: {
     translation: {
@@ -7,10 +10,36 @@ export const translations = {
           busy: 'Đang bận'
         }
       },
-      navigation: {
+      link: {
+        portfolio: {
+          description: 'trang web cá nhân',
+        },
+        github: {
+          description: 'Mã nguồn mở và dự án',
+        },
+        linkedin: {
+          description: 'Mạng xã hội nghề nghiệp',
+        },
+        youtube: {
+          description: 'game và công nghệ',
+        },
+        facebook: {
+          description: 'facebook cá nhân',
+        },
+        steam: {
+          description: 'Hồ sơ game',
+        },
+        discord: {
+          description: 'trang cá nhân Discord',
+        },
+      },
+        navigation: {
         all: 'Tất cả',
         search: 'Tìm kiếm link...',
-        noResults: 'Không tìm thấy link nào với từ khóa "{{term}}"'
+        noResults: 'Không tìm thấy link nào với từ khóa "{{term}}"',
+        professional: 'Chuyên môn',
+        personal: 'Cá nhân',
+        gaming: 'Game',
       },
       actions: {
         call: 'Gọi',
@@ -41,7 +70,7 @@ export const translations = {
         emailSent: 'Đang mở ứng dụng email...'
       },
       share: {
-        title: 'Donate',
+        title: 'Ủng hộ',
         scanQR: 'Quét bằng điện thoại để chuyển khoản MB Bank',
         qrDownloaded: 'QR Code đã được tải xuống',
         analyticsExported: 'Analytics đã được xuất',
@@ -62,10 +91,36 @@ export const translations = {
           busy: 'Busy'
         }
       },
-      navigation: {
+       link: {
+        portfolio: {
+          description: 'personal website',
+        },
+        github: {
+          description: 'Open-source & projects',
+        },
+        linkedin: {
+          description: 'Professional network',
+        },
+        youtube: {
+          description: 'gaming & technology',
+        },
+        facebook: {
+          description: 'personal facebook',
+        },
+        steam: {
+          description: 'Gaming profile',
+        },
+        discord: {
+          description: 'personal Discord',
+        },
+      },
+       navigation: {
         all: 'All',
         search: 'Search links...',
-        noResults: 'No links found for "{{term}}"'
+        noResults: 'No links found for "{{term}}"',
+        professional: 'Professional',
+        personal: 'Personal',
+        gaming: 'Gaming',
       },
       actions: {
         call: 'Call',

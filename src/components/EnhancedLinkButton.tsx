@@ -150,8 +150,8 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
               </div>
 
               <p className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                {item.description}
-              </p>
+  {t(`link.${item.id}.description`, { defaultValue: item.description })}
+</p>
 
               {!isActive && isScheduled && item.endDate && (
                 <CountdownTimer endDate={item.endDate} isDark={isDark} />

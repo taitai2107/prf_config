@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -9,11 +9,31 @@ interface CategoryFilterProps {
   isDark: boolean;
 }
 
-export function CategoryFilter({ categories, selectedCategory, onCategoryChange, isDark }: CategoryFilterProps) {
+export function CategoryFilter({
+  categories,
+  selectedCategory,
+  onCategoryChange,
+  isDark,
+}: CategoryFilterProps) {
   const { t } = useTranslation();
 
+  
+  const labelForCategory = (cat: string) => {
+    const key = cat.trim().toLowerCase();
+    switch (key) {
+      case 'professional':
+        return t('navigation.professional');
+      case 'personal':
+        return t('navigation.personal');
+      case 'gaming':
+        return t('navigation.gaming');
+      default:
+        return cat; 
+    }
+  };
+
   return (
-    <motion.div 
+    <motion.div
       className="flex gap-2 mb-6 overflow-x-auto pb-2"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
@@ -33,7 +53,7 @@ export function CategoryFilter({ categories, selectedCategory, onCategoryChange,
       >
         {t('navigation.all')}
       </motion.button>
-      
+
       {categories.map((category, index) => (
         <motion.button
           key={category}
@@ -51,7 +71,7 @@ export function CategoryFilter({ categories, selectedCategory, onCategoryChange,
                 : 'bg-white/50 text-slate-600 hover:bg-white/80'
           }`}
         >
-          {category}
+          {labelForCategory(category)}
         </motion.button>
       ))}
     </motion.div>
