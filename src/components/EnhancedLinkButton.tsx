@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import * as LucideIcons from 'lucide-react';
 import { DivideIcon as LucideIcon, QrCode, AlertTriangle, Clock } from 'lucide-react';
 import { LinkItem } from '../types';
 import { LinkBadge } from './LinkBadge';
 import { CountdownTimer } from './CountdownTimer';
 import { QRModal } from './QRModal';
+import { LoadingOverlay } from './LoadingOverlay';
+import { HoldTooltip } from './HoldTooltip';
 import { getDeviceType } from '../utils/device';
 import { trackClick } from '../utils/analytics';
+import { useHoldGesture } from '../hooks/useHoldGesture';
+import { useMouseTilt } from '../hooks/useMouseTilt';
+import { useRipple } from '../hooks/useRipple';
 
 interface EnhancedLinkButtonProps {
   item: LinkItem;
@@ -14,8 +21,15 @@ interface EnhancedLinkButtonProps {
 }
 
 export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
+  const { t } = useTranslation();
   const [showQR, setShowQR] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showHoldTooltip, setShowHoldTooltip] = useState(false);
+  
   const IconComponent = (LucideIcons as any)[item.icon] as LucideIcon || LucideIcons.Link;
+  const { tiltStyle, tiltHandlers } = useMouseTilt(4);
+  const { createRipple, RippleEffect } = useRipple();
   
   const isLinkActive = () => {
     if (!item.isActive) return false;
@@ -33,12 +47,56 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
     return item.deviceOnly === deviceType;
   };
 
-  const handleClick = () => {
+  const openLink = () => {
     if (!isLinkActive()) return;
     
     trackClick(item.id, getDeviceType(), document.referrer || 'direct');
     window.open(item.url, '_blank', 'noopener,noreferrer');
   };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (!isLinkActive()) return;
+
+    // Check if it's a middle click or ctrl/cmd click
+    const isSpecialClick = e.button === 1 || e.ctrlKey || e.metaKey;
+    
+    if (isSpecialClick) {
+      openLink();
+      return;
+    }
+
+    // Create ripple effect
+    createRipple(e);
+    
+    // Show loading state
+    setIsLoading(true);
+    setLoadingProgress(0);
+    
+    // Simulate progress
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 100);
+    
+    // Open link after 1 second
+    setTimeout(() => {
+      setIsLoading(false);
+      setLoadingProgress(0);
+      openLink();
+    }, 1000);
+  };
+
+  const { touchHandlers } = useHoldGesture({
+    onHold: openLink,
+    onHoldStart: () => setShowHoldTooltip(true),
+    onHoldEnd: () => setShowHoldTooltip(false),
+    disabled: !isActive
+  });
 
   if (!shouldShowOnDevice()) return null;
 
@@ -47,25 +105,32 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
 
   return (
     <>
-      <div className="relative group">
-        <button
+      <motion.div 
+        className="relative group"
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.2 }}
+      >
+        <motion.button
           onClick={handleClick}
+          {...touchHandlers}
+          {...tiltHandlers}
           disabled={!isActive}
-          className={`w-full p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl ${
+          style={tiltStyle}
+          className={`relative overflow-hidden w-full p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 hover:shadow-xl ${
             isActive
               ? (isDark
-                  ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                  : 'bg-white/70 border-white/30 hover:bg-white/90 hover:border-white/50')
+                  ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-blue-500/20'
+                  : 'bg-white/70 border-white/30 hover:bg-white/90 hover:border-white/50 hover:shadow-blue-500/10')
               : 'opacity-50 cursor-not-allowed bg-gray-500/20 border-gray-500/30'
           }`}
-          style={{
-            boxShadow: isActive ? `0 8px 32px ${item.color}20` : 'none',
-          }}
         >
+          <RippleEffect color={`${item.color}40`} />
+          
           <div className="flex items-center gap-4">
             <div
-              className={`p-3 rounded-xl flex-shrink-0 transition-transform duration-300 ${
-                isActive ? 'group-hover:scale-110' : ''
+              className={`p-3 rounded-xl flex-shrink-0 transition-all duration-300 ${
+                isActive ? 'group-hover:scale-110 group-hover:rotate-3' : ''
               }`}
               style={{ backgroundColor: `${item.color}20` }}
             >
@@ -107,21 +172,38 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
               )}
             </div>
           </div>
-        </button>
+          
+          <LoadingOverlay
+            isVisible={isLoading}
+            progress={loadingProgress}
+            linkTitle={item.title}
+            isDark={isDark}
+          />
+        </motion.button>
+
+        <HoldTooltip
+          isVisible={showHoldTooltip}
+          text={t('actions.holdToOpen')}
+          isDark={isDark}
+        />
 
         {isActive && (
-          <button
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => setShowQR(true)}
-            className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 ${
+            className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 hover:shadow-lg ${
               isDark
                 ? 'bg-slate-800/80 border-white/20 text-white hover:bg-slate-700/80'
                 : 'bg-white/80 border-slate-200 text-slate-600 hover:bg-white'
             }`}
           >
             <QrCode className="w-4 h-4" />
-          </button>
+          </motion.button>
         )}
-      </div>
+      </motion.div>
 
       <QRModal
         isOpen={showQR}

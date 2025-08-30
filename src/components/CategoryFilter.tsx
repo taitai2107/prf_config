@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface CategoryFilterProps {
   categories: string[];
@@ -8,10 +10,19 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, selectedCategory, onCategoryChange, isDark }: CategoryFilterProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-      <button
+    <motion.div 
+      className="flex gap-2 mb-6 overflow-x-auto pb-2"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.9 }}
+    >
+      <motion.button
         onClick={() => onCategoryChange('all')}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap ${
           selectedCategory === 'all'
             ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
@@ -20,12 +31,17 @@ export function CategoryFilter({ categories, selectedCategory, onCategoryChange,
               : 'bg-white/50 text-slate-600 hover:bg-white/80'
         }`}
       >
-        Tất cả
-      </button>
+        {t('navigation.all')}
+      </motion.button>
       
-      {categories.map((category) => (
-        <button
+      {categories.map((category, index) => (
+        <motion.button
           key={category}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, delay: 1.0 + index * 0.1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => onCategoryChange(category)}
           className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap ${
             selectedCategory === category
@@ -36,8 +52,8 @@ export function CategoryFilter({ categories, selectedCategory, onCategoryChange,
           }`}
         >
           {category}
-        </button>
+        </motion.button>
       ))}
-    </div>
+    </motion.div>
   );
 }

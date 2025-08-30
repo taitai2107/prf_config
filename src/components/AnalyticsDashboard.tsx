@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { BarChart3, Download, TrendingUp } from 'lucide-react';
 import { getAnalytics, exportAnalyticsCSV, downloadCSV } from '../utils/analytics';
 import toast from 'react-hot-toast';
@@ -8,6 +10,7 @@ interface AnalyticsDashboardProps {
 }
 
 export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
+  const { t } = useTranslation();
   const analytics = getAnalytics();
   const totalClicks = Object.values(analytics).reduce((sum, data) => sum + data.clicks, 0);
 
@@ -15,7 +18,7 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
     const csvContent = exportAnalyticsCSV();
     const today = new Date().toISOString().split('T')[0];
     downloadCSV(`analytics_${today}.csv`, csvContent);
-    toast.success('Analytics đã được xuất');
+    toast.success(t('share.analyticsExported'));
   };
 
   const topLinks = Object.entries(analytics)
@@ -23,22 +26,33 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
     .slice(0, 5);
 
   return (
-    <div className="mb-8">
-      <div className={`p-6 rounded-2xl backdrop-blur-md border ${
+    <motion.div 
+      className="mb-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 1.5 }}
+    >
+      <motion.div 
+        className={`p-6 rounded-2xl backdrop-blur-md border ${
         isDark
           ? 'bg-white/5 border-white/10'
           : 'bg-white/70 border-white/30'
       }`}>
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.2 }}
+      >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <BarChart3 className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
             <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              Thống kê
+              {t('analytics.title')}
             </h3>
           </div>
           
-          <button
+          <motion.button
             onClick={handleExportCSV}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
               isDark
                 ? 'bg-white/10 text-slate-300 hover:bg-white/20'
@@ -46,8 +60,8 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
             }`}
           >
             <Download className="w-4 h-4" />
-            Xuất CSV
-          </button>
+            {t('actions.exportCSV')}
+          </motion.button>
         </div>
 
         <div className={`p-4 rounded-xl mb-4 ${
@@ -56,7 +70,7 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className={`w-4 h-4 ${isDark ? 'text-green-400' : 'text-green-600'}`} />
             <span className={`font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>
-              Tổng lượt click: {totalClicks}
+              {t('analytics.totalClicks', { count: totalClicks })}
             </span>
           </div>
         </div>
@@ -64,12 +78,15 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
         {topLinks.length > 0 && (
           <div>
             <h4 className={`font-medium mb-3 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
-              Top Links
+              {t('analytics.topLinks')}
             </h4>
             <div className="space-y-2">
-              {topLinks.map(([slug, data]) => (
-                <div
+              {topLinks.map(([slug, data], index) => (
+                <motion.div
                   key={slug}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                   className={`flex justify-between items-center p-3 rounded-xl ${
                     isDark ? 'bg-white/5' : 'bg-white/50'
                   }`}
@@ -78,14 +95,14 @@ export function AnalyticsDashboard({ isDark }: AnalyticsDashboardProps) {
                     {slug}
                   </span>
                   <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                    {data.clicks} clicks
+                    {t('analytics.clicks', { count: data.clicks })}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

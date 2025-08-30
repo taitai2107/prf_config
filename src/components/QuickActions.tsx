@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Phone, MessageCircle, Send, Mail, Copy, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -11,43 +13,44 @@ interface QuickActionsProps {
 }
 
 export function QuickActions({ profile, isDark }: QuickActionsProps) {
+  const { t } = useTranslation();
   const [copiedItem, setCopiedItem] = React.useState<string | null>(null);
 
   const copyToClipboard = async (text: string, label: string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedItem(label);
-      toast.success(`Đã copy ${label}`);
+      toast.success(`${t('actions.copied')} ${label}`);
       setTimeout(() => setCopiedItem(null), 2000);
     } catch {
-      toast.error('Không thể copy');
+      toast.error('Copy failed');
     }
   };
 
   const actions = [
     {
-      label: 'Gọi',
+      label: t('actions.call'),
       icon: Phone,
       action: () => window.open(`tel:${profile.phone}`),
       copyText: profile.phone,
       color: 'from-green-500 to-emerald-500'
     },
     {
-      label: 'Zalo',
+      label: t('actions.zalo'),
       icon: MessageCircle,
       action: () => window.open(`https://zalo.me/${profile.phone.replace(/\D/g, '')}`),
       copyText: `https://zalo.me/${profile.phone.replace(/\D/g, '')}`,
       color: 'from-blue-500 to-cyan-500'
     },
     {
-      label: 'Telegram',
+      label: t('actions.telegram'),
       icon: Send,
       action: () => window.open(`https://t.me/tainguyen2017`),
       copyText: `https://t.me/tainguyen2017`,
       color: 'from-sky-500 to-blue-500'
     },
     {
-      label: 'Email',
+      label: t('actions.email'),
       icon: Mail,
       action: () => window.open(`mailto:${profile.email}`),
       copyText: profile.email,
@@ -56,31 +59,46 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
   ];
 
   return (
-    <div className="mb-8">
+    <motion.div 
+      className="mb-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.7 }}
+    >
       <h3 className={`text-lg font-semibold mb-4 text-center ${
         isDark ? 'text-slate-200' : 'text-slate-700'
       }`}>
-        Liên hệ nhanh
+        {t('contact.title')} nhanh
       </h3>
       
       <div className="grid grid-cols-2 gap-3">
-        {actions.map((action) => {
+        {actions.map((action, index) => {
           const IconComponent = action.icon;
           const isCopied = copiedItem === action.label;
           
           return (
-            <div key={action.label} className="relative group">
-              <button
+            <motion.div 
+              key={action.label} 
+              className="relative group"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.8 + index * 0.1 }}
+            >
+              <motion.button
                 onClick={action.action}
-                className={`w-full p-4 rounded-2xl bg-gradient-to-r ${action.color} text-white font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`w-full p-4 rounded-2xl bg-gradient-to-r ${action.color} text-white font-medium transition-all duration-300 hover:shadow-xl flex items-center justify-center gap-2`}
               >
                 <IconComponent className="w-5 h-5" />
                 <span className="text-sm">{action.label}</span>
-              </button>
+              </motion.button>
               
-              <button
+              <motion.button
                 onClick={() => copyToClipboard(action.copyText, action.label)}
-                className={`absolute -top-2 -right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 ${
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`absolute -top-2 -right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 hover:shadow-lg ${
                   isDark
                     ? 'bg-slate-800/80 border-white/20 text-white'
                     : 'bg-white/80 border-slate-200 text-slate-600'
@@ -91,11 +109,11 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
                 ) : (
                   <Copy className="w-3 h-3" />
                 )}
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
