@@ -5,10 +5,7 @@ import { Phone, MessageCircle, Send, Mail, Copy, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface QuickActionsProps {
-  profile: {
-    phone: string;
-    email: string;
-  };
+  profile: { phone: string; email: string };
   isDark: boolean;
 }
 
@@ -16,10 +13,10 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
   const { t } = useTranslation();
   const [copiedItem, setCopiedItem] = React.useState<string | null>(null);
 
-  const copyToClipboard = async (text: string, label: string) => {
+  const copyToClipboard = async (id: string, text: string, label: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedItem(label);
+      setCopiedItem(id);
       toast.success(`${t('actions.copied')} ${label}`);
       setTimeout(() => setCopiedItem(null), 2000);
     } catch {
@@ -27,62 +24,74 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
     }
   };
 
-  const actions = [
-    {
-      label: t('actions.call'),
-      icon: Phone,
-      action: () => window.open(`tel:${profile.phone}`),
-      copyText: profile.phone,
-      color: 'from-green-500 to-emerald-500'
-    },
-    {
-      label: t('actions.zalo'),
-      icon: MessageCircle,
-      action: () => window.open(`https://zalo.me/${profile.phone.replace(/\D/g, '')}`),
-      copyText: `https://zalo.me/${profile.phone.replace(/\D/g, '')}`,
-      color: 'from-blue-500 to-cyan-500'
-    },
-    {
-      label: t('actions.telegram'),
-      icon: Send,
-      action: () => window.open(`https://t.me/tainguyen2017`),
-      copyText: `https://t.me/tainguyen2017`,
-      color: 'from-sky-500 to-blue-500'
-    },
-    {
-      label: t('actions.email'),
-      icon: Mail,
-      action: () => window.open(`mailto:${profile.email}`),
-      copyText: profile.email,
-      color: 'from-purple-500 to-pink-500'
-    }
-  ];
+ 
+  const actions = React.useMemo(
+    () => [
+      {
+        id: 'call',
+        label: t('actions.call'),
+        icon: Phone,
+        action: () => window.open(`tel:${profile.phone}`),
+        copyText: profile.phone,
+        color: 'from-green-500 to-emerald-500',
+      },
+      {
+        id: 'zalo',
+        label: t('actions.zalo'),
+        icon: MessageCircle,
+        action: () =>
+          window.open(`https://zalo.me/${profile.phone.replace(/\D/g, '')}`),
+        copyText: `https://zalo.me/${profile.phone.replace(/\D/g, '')}`,
+        color: 'from-blue-500 to-cyan-500',
+      },
+      {
+        id: 'telegram',
+        label: t('actions.telegram'),
+        icon: Send,
+        action: () => window.open(`https://t.me/tainguyen2017`),
+        copyText: `https://t.me/tainguyen2017`,
+        color: 'from-sky-500 to-blue-500',
+      },
+      {
+        id: 'email',
+        label: t('actions.email'),
+        icon: Mail,
+        action: () => window.open(`mailto:${profile.email}`),
+        copyText: profile.email,
+        color: 'from-purple-500 to-pink-500',
+      },
+    ],
+    [profile.phone, profile.email, t]
+  );
 
   return (
-    <motion.div 
+    <motion.div
       className="mb-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.7 }}
     >
-      <h3 className={`text-lg font-semibold mb-4 text-center ${
-        isDark ? 'text-slate-200' : 'text-slate-700'
-      }`}>
-        {t('contact.title')} nhanh
+      <h3
+        className={`text-lg font-semibold mb-4 text-center ${
+          isDark ? 'text-slate-200' : 'text-slate-700'
+        }`}
+      >
+        {t('contact.title')}
       </h3>
-      
+
       <div className="grid grid-cols-2 gap-3">
         {actions.map((action, index) => {
           const IconComponent = action.icon;
-          const isCopied = copiedItem === action.label;
-          
+          const isCopied = copiedItem === action.id;
+
           return (
-            <motion.div 
-              key={action.label} 
+            <motion.div
+              key={action.id}              
               className="relative group"
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={false}              
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.8 + index * 0.1 }}
+              style={{ opacity: 1, transform: 'scale(1)' }}
+              transition={{ duration: 0.3 }}
             >
               <motion.button
                 onClick={action.action}
@@ -93,9 +102,11 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
                 <IconComponent className="w-5 h-5" />
                 <span className="text-sm">{action.label}</span>
               </motion.button>
-              
+
               <motion.button
-                onClick={() => copyToClipboard(action.copyText, action.label)}
+                onClick={() =>
+                  copyToClipboard(action.id, action.copyText, action.label)
+                }
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className={`absolute -top-2 -right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 hover:shadow-lg ${

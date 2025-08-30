@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Search, X } from 'lucide-react';
@@ -11,6 +11,7 @@ interface SearchBarProps {
 
 export function SearchBar({ searchTerm, onSearchChange, isDark }: SearchBarProps) {
   const { t } = useTranslation();
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <motion.div 
@@ -24,8 +25,8 @@ export function SearchBar({ searchTerm, onSearchChange, isDark }: SearchBarProps
         isDark
           ? 'bg-white/5 border-white/10'
           : 'bg-white/70 border-white/30'
-      }`}>
-        whileFocusWithin={{ scale: 1.02 }}
+      }`}
+        animate={{ scale: isFocused ? 1.02 : 1 }}
         transition={{ duration: 0.2 }}
       >
         <Search className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
@@ -37,6 +38,8 @@ export function SearchBar({ searchTerm, onSearchChange, isDark }: SearchBarProps
           placeholder={t('navigation.search')}
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           className={`w-full pl-12 pr-12 py-4 rounded-2xl bg-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 ${
             isDark ? 'text-white placeholder-slate-400' : 'text-slate-800 placeholder-slate-500'
           }`}

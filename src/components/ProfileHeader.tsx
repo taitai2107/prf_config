@@ -55,7 +55,7 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
         <motion.div 
           className={`absolute bottom-2 right-2 p-2 rounded-full border-2 border-white ${
           profile.status === 'available' ? 'bg-green-500' : 'bg-red-500'
-        }`}>
+        }`}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.3, delay: 0.5 }}
@@ -69,7 +69,7 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
         isDark 
           ? 'from-blue-400 to-purple-400' 
           : 'from-blue-600 to-purple-600'
-      } bg-clip-text text-transparent`}>
+      } bg-clip-text text-transparent`}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -80,7 +80,7 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
       <motion.p 
         className={`text-lg font-medium mb-3 ${
         isDark ? 'text-slate-300' : 'text-slate-600'
-      }`}>
+      }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -91,7 +91,7 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
       <motion.p 
         className={`flex items-center justify-center gap-2 ${
         isDark ? 'text-slate-400' : 'text-slate-500'
-      }`}>
+      }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
@@ -103,7 +103,7 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
       <motion.div 
         className={`flex items-center justify-center gap-2 ${
         isDark ? 'text-slate-400' : 'text-slate-500'
-      }`}>
+      }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}

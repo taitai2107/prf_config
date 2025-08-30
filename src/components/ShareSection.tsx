@@ -43,7 +43,7 @@ export function ShareSection({ isDark }: ShareSectionProps) {
         isDark
           ? 'bg-white/5 border-white/10'
           : 'bg-white/70 border-white/30'
-      }`}>
+      }`}
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
       >
