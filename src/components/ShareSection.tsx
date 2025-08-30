@@ -10,7 +10,6 @@ export function ShareSection({ isDark }: ShareSectionProps) {
   const [showQR, setShowQR] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Ảnh QR ngân hàng đã upload
   const qrImageUrl = 'https://res.cloudinary.com/doivdewue/image/upload/v1756226928/aceeec16-89c0-43f3-8098-4958d50ffcbc.png';
   const BankLink = 'MBBANK-21072001210703';
 
@@ -37,7 +36,7 @@ export function ShareSection({ isDark }: ShareSectionProps) {
           : 'bg-white/70 border-white/30'
       }`}>
         <div className="flex items-center gap-3 mb-4">
-          <Share2 className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+          <Share2 className={`w-5 h-5 ${isDark ? 'text-green-400' : 'text-green-700'}`} />
           <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>
             Donate
           </h3>
@@ -87,13 +86,15 @@ export function ShareSection({ isDark }: ShareSectionProps) {
 
         {showQR && (
           <div className="mt-6 text-center animate-fadeIn">
-            <img
-              src={qrImageUrl}
-              alt="QR Code"
-              className="mx-auto rounded-xl shadow-lg"
-              style={{ maxWidth: '200px' }}
-            />
-            <p className={`text-sm mt-3 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            <div className="relative w-[200px] mx-auto">
+              <img
+                src={qrImageUrl}
+                alt="QR Code"
+                className="relative z-10 rounded-xl shadow-2xl border border-green-500 animate-qrGlow"
+              />
+              <div className="absolute inset-0 z-0 rounded-xl bg-green-500/10 blur-lg animate-pulse" />
+            </div>
+            <p className={`text-sm mt-3 ${isDark ? 'text-green-400' : 'text-green-700'}`}>
               Quét bằng điện thoại để chuyển khoản MB Bank
             </p>
           </div>

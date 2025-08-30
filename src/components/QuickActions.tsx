@@ -42,8 +42,8 @@ export function QuickActions({ profile, isDark }: QuickActionsProps) {
     {
       label: 'Telegram',
       icon: Send,
-      action: () => window.open(`https://t.me/+84${profile.phone.slice(-9)}`),
-      copyText: `https://t.me/+84${profile.phone.slice(-9)}`,
+      action: () => window.open(`https://t.me/tainguyen2017`),
+      copyText: `https://t.me/tainguyen2017`,
       color: 'from-sky-500 to-blue-500'
     },
     {
