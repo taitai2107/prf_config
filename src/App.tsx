@@ -1,18 +1,56 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useProfileData } from './hooks/useProfileData';
 import { ThemeToggle } from './components/ThemeToggle';
 import { ProfileHeader } from './components/ProfileHeader';
-import { LinkCategory } from './components/LinkCategory';
+import { SearchBar } from './components/SearchBar';
+import { CategoryFilter } from './components/CategoryFilter';
+import { QuickActions } from './components/QuickActions';
+import { StatusToggle } from './components/StatusToggle';
+import { VCardButton } from './components/VCardButton';
+import { EnhancedLinkButton } from './components/EnhancedLinkButton';
 import { ShareSection } from './components/ShareSection';
 import { ContactForm } from './components/ContactForm';
+import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 import { Footer } from './components/Footer';
 import { Loader2 } from 'lucide-react';
 
 function App() {
   const [isDark, setIsDark] = useLocalStorage('darkMode', false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [userStatus, setUserStatus] = useLocalStorage<'available' | 'busy'>('userStatus', 'available');
   const { data, loading, error } = useProfileData();
+
+  const filteredLinks = useMemo(() => {
+    if (!data) return [];
+    
+    let filtered = data.links;
+    
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(category => category.category === selectedCategory);
+    }
+    
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.map(category => ({
+        ...category,
+        items: category.items.filter(item =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      })).filter(category => category.items.length > 0);
+    }
+    
+    return filtered;
+  }, [data, selectedCategory, searchTerm]);
+
+  const categories = useMemo(() => {
+    if (!data) return [];
+    return data.links.map(category => category.category);
+  }, [data]);
 
   React.useEffect(() => {
     if (data?.settings.siteName) {
@@ -58,18 +96,82 @@ function App() {
       <ThemeToggle isDark={isDark} onToggle={() => setIsDark(!isDark)} />
       
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-md">
-        <ProfileHeader profile={data.profile} isDark={isDark} />
+        <ProfileHeader 
+          profile={{
+            ...data.profile,
+            status: userStatus
+          }} 
+          isDark={isDark} 
+        />
+        
+        <StatusToggle 
+          status={userStatus}
+          onStatusChange={setUserStatus}
+          isDark={isDark}
+        />
+        
+        <QuickActions 
+          profile={{
+            phone: data.profile.phone,
+            email: data.profile.email
+          }}
+          isDark={isDark}
+        />
+        
+        <div className="mb-6">
+          <VCardButton 
+            profile={{
+              name: data.profile.name,
+              phone: data.profile.phone,
+              email: data.profile.email
+            }}
+            isDark={isDark}
+          />
+        </div>
+        
+        <SearchBar 
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          isDark={isDark}
+        />
+        
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          isDark={isDark}
+        />
         
         <div className="space-y-6">
-          {data.links.map((category, index) => (
-            <LinkCategory 
-              key={index} 
-              category={category} 
-              isDark={isDark}
-            />
+          {filteredLinks.map((category, index) => (
+            <div key={index}>
+              {filteredLinks.length > 1 && (
+                <h2 className={`text-xl font-bold mb-4 text-center ${
+                  isDark ? 'text-slate-200' : 'text-slate-700'
+                }`}>
+                  {category.category}
+                </h2>
+              )}
+              <div className="space-y-3">
+                {category.items.map((item) => (
+                  <EnhancedLinkButton 
+                    key={item.id} 
+                    item={item} 
+                    isDark={isDark}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
         
+        {filteredLinks.length === 0 && searchTerm && (
+          <div className={`text-center py-8 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            Không tìm thấy link nào với từ khóa "{searchTerm}"
+          </div>
+        )}
+        
+        <AnalyticsDashboard isDark={isDark} />
         <ShareSection isDark={isDark} />
         <ContactForm email={data.profile.email} isDark={isDark} />
         <Footer 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Contact2 } from 'lucide-react';
+import { MapPin, Contact2, Circle } from 'lucide-react';
 
 interface ProfileHeaderProps {
   profile: {
@@ -8,6 +8,7 @@ interface ProfileHeaderProps {
     description: string;
     avatar: string;
     location: string;
+    status: 'available' | 'busy';
   };
   isDark: boolean;
 }
@@ -22,6 +23,13 @@ export function ProfileHeader({ profile, isDark }: ProfileHeaderProps) {
           className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-xl hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500/20 to-purple-500/20 animate-pulse" />
+        
+        {/* Status indicator */}
+        <div className={`absolute bottom-2 right-2 p-2 rounded-full border-2 border-white ${
+          profile.status === 'available' ? 'bg-green-500' : 'bg-red-500'
+        }`}>
+          <Circle className="w-3 h-3 fill-current text-white" />
+        </div>
       </div>
       
       <h1 className={`text-3xl font-bold mb-2 bg-gradient-to-r ${
