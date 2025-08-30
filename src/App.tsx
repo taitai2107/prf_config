@@ -21,6 +21,21 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [userStatus, setUserStatus] = useLocalStorage<'available' | 'busy'>('userStatus', 'available');
+  React.useEffect(() => {
+    const updateStatusByTime = () => {
+      const hour = new Date().getHours();
+      if (hour >= 8 && hour < 17) {
+        setUserStatus('available');
+      } else {
+        setUserStatus('busy');
+      }
+    };
+
+    updateStatusByTime(); // gọi ngay lần đầu
+    const interval = setInterval(updateStatusByTime, 5 * 60 * 1000); // 5 phút cập nhật lại 1 lần
+
+    return () => clearInterval(interval); // dọn dẹp khi unmount
+  }, []);
   const { data, loading, error } = useProfileData();
 
   const filteredLinks = useMemo(() => {
@@ -104,11 +119,11 @@ function App() {
           isDark={isDark} 
         />
         
-        <StatusToggle 
+        {/* <StatusToggle 
           status={userStatus}
           onStatusChange={setUserStatus}
           isDark={isDark}
-        />
+        /> */}
         
         <QuickActions 
           profile={{

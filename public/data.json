@@ -16,13 +16,12 @@
         {
           "id": "portfolio",
           "title": "Portfolio Website",
-          "url": "https://tainguyen.is-a-dev",
+          "url": "https://tainguyen.is-a.dev",
           "description": "trang web cá nhân",
           "icon": "Globe",
           "color": "#3B82F6",
           "badge": "NEW",
           "isActive": true,
-          "clicks": 45,
           "healthStatus": "healthy"
         },
         {
@@ -34,7 +33,6 @@
           "color": "#24292e",
           "badge": "HOT",
           "isActive": true,
-          "clicks": 123,
           "healthStatus": "healthy"
         },
         {
@@ -45,7 +43,6 @@
           "icon": "Linkedin",
           "color": "#0077b5",
           "isActive": true,
-          "clicks": 67,
           "healthStatus": "healthy"
         }
       ]
@@ -61,7 +58,6 @@
           "icon": "Youtube",
           "color": "#ff0000",
           "isActive": true,
-          "clicks": 89,
           "healthStatus": "healthy"
         },
         {
@@ -72,7 +68,6 @@
           "icon": "Facebook",
           "color": "#06447d",
           "isActive": true,
-          "clicks": 34,
           "healthStatus": "healthy"
         }
       ]
@@ -83,25 +78,23 @@
         {
           "id": "steam",
           "title": "Steam Profile",
-          "url": "https://steamcommunity.com/id/taitai2107",
+          "url": "https://steamcommunity.com/id/29898/",
           "description": "Gaming profile",
           "icon": "Gamepad2",
           "color": "#1b2838",
           "deviceOnly": "desktop",
           "isActive": true,
-          "clicks": 23,
           "healthStatus": "healthy"
         },
         {
           "id": "discord",
           "title": "Discord",
-          "url": "https://discord.gg/taitai2107",
+          "url": "discord.com/users/586750741633302528",
           "description": "Gaming community",
           "icon": "MessageSquare",
           "color": "#5865f2",
           "badge": "PRIVATE",
           "isActive": true,
-          "clicks": 12,
           "healthStatus": "warning"
         }
       ]
