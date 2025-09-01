@@ -42,7 +42,7 @@ export function SettingsButton({ isDark }: SettingsButtonProps) {
                     }`}
                   >
                     <Music className="w-5 h-5" />
-                    <span className="font-medium">Nhạc</span>
+                    <span className="font-medium">Music</span>
                   </motion.button>
 
                   <motion.button

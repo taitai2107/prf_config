@@ -1,33 +1,69 @@
 {
   "tracks": [
-   
-        {
+    {
       "id": "track1",
-      "title": "Carefree(chosic.com)",
-      "artist": "Lo-Fi Beats",
-      "file": "Carefree(chosic.com).mp3"
-      
-        },
-            {
+      "title": "ロクデナシ_ただ声一つ",
+      "artist": "Jappanese Song",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756746211/%E3%83%AD%E3%82%AF%E3%83%87%E3%83%8A%E3%82%B7_%E3%81%9F%E3%81%A0%E5%A3%B0%E4%B8%80%E3%81%A4___fb3cjw.mp3",
+      "duration": 0
+    },
+    {
       "id": "track2",
-      "title": "PeriTune_Alleyway-chosic.com_",
-      "artist": "Lo-Fi Beats",
-      "file": "PeriTune_Alleyway-chosic.com_.mp3"
-      
+      "title": "君の名は___Kimi_no_Na_wa_Nandemonaiya_-_Kamishiraishi_Mone",
+      "artist": "Jappanese Song",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756746214/%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF___Kimi_no_Na_wa_Nandemonaiya_-_Kamishiraishi_Mone_lg0ahh.mp3",
+      "duration": 0
     },
-        {
+    {
       "id": "track3",
-      "title": "Roa-Haru-chosic.com_",
-      "artist": "Lo-Fi Beats",
-      "file": "Roa-Haru-chosic.com_.mp3"
-      
+      "title": "ロクデナシ_愛が灯る",
+      "artist": "Jappanese Song",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756746219/%E3%83%AD%E3%82%AF%E3%83%87%E3%83%8A%E3%82%B7_%E6%84%9B%E3%81%8C%E7%81%AF%E3%82%8B___mv7eum.mp3",
+      "duration": 0
     },
-        {
+    {
       "id": "track4",
+      "title": "Hotarubi_no_Mori",
+      "artist": "Jappanese Song",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756746228/Hotarubi_no_Mori_cqmyav.mp3",
+      "duration": 0
+    },
+    {
+      "id": "track5",
+      "title": "感情を込めて",
+      "artist": "Jappanese Song",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756746243/%E6%84%9F%E6%83%85%E3%82%92%E8%BE%BC%E3%82%81%E3%81%A6_crgk5y.mp3",
+      "duration": 0
+    },
+    {
+      "id": "track6",
       "title": "Swing-Machine-chosic.com_",
       "artist": "Lo-Fi Beats",
-      "file": "Swing-Machine-chosic.com_.mp3"
-      
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756743179/Swing-Machine-chosic.com__w9ixyv.mp3",
+      "duration": 0
+    },
+     {
+      "id": "track7",
+      "title": "Roa-Haru-chosic.com_",
+      "artist": "Lo-Fi Beats",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756745102/Roa-Haru-chosic.com__y1puco.mp3",
+      "duration": 0
+    },
+     {
+      "id": "track8",
+      "title": "PeriTune_Alleyway-chosic.com_",
+      "artist": "Lo-Fi Beats",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756745199/PeriTune_Alleyway-chosic.com__iyyy3a.mp3",
+      "duration": 0
+    },
+     {
+      "id": "track9",
+      "title": "Carefree(chosic.com)",
+      "artist": "Lo-Fi Beats",
+      "file": "https://res.cloudinary.com/doivdewue/video/upload/v1756745256/Carefree_chosic.com_pbfiyu.mp3",
+      "duration": 0
     }
+     
+    
   ]
 }
