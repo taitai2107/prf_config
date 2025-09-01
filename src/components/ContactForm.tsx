@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Mail, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -8,6 +10,7 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ email, isDark }: ContactFormProps) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,7 +21,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
     e.preventDefault();
     
     if (!formData.name ||!formData.email|| !formData.message) {
-      toast.error('vui lòng điền thông tin');
+      toast.error(t('contact.fillRequired'));
       return;
     }
 
@@ -28,7 +31,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
 
     
     window.location.href = mailtoUrl;
-    toast.success('Opening email client...');
+    toast.success(t('contact.emailSent'));
     
     // Reset form
     setFormData({ name: '', email: '', message: '' });
@@ -42,16 +45,25 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
   };
 
   return (
-    <div className="mb-8">
-      <div className={`p-6 rounded-2xl backdrop-blur-md border ${
+    <motion.div 
+      className="mb-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 1.6 }}
+    >
+      <motion.div 
+        className={`p-6 rounded-2xl backdrop-blur-md border ${
         isDark
           ? 'bg-white/5 border-white/10'
           : 'bg-white/70 border-white/30'
-      }`}>
+      }`}
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.2 }}
+      >
         <div className="flex items-center gap-3 mb-4">
           <Mail className={`w-5 h-5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
           <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>
-           Liên Hệ
+            {t('contact.title')}
           </h3>
         </div>
         
@@ -60,7 +72,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
             <input
               type="text"
               name="name"
-              placeholder="Bí danh"
+              placeholder={t('contact.name')}
               value={formData.name}
               onChange={handleChange}
               className={`w-full px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
@@ -75,7 +87,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
             <input
               type="email"
               name="email"
-              placeholder="Email của bạn"
+              placeholder={t('contact.email')}
               value={formData.email}
               onChange={handleChange}
               className={`w-full px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${
@@ -89,8 +101,7 @@ export function ContactForm({ email, isDark }: ContactFormProps) {
           <div>
             <textarea
               name="message"
-              placeholder="Tin nhắn của bạn gửi tới 
-tainguyencongkhanh@gmail.com"
+              placeholder={t('contact.message')}
               rows={4}
               value={formData.message}
               onChange={handleChange}
@@ -102,15 +113,17 @@ tainguyencongkhanh@gmail.com"
             />
           </div>
           
-          <button
+          <motion.button
             type="submit"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg transform hover:scale-[1.02]"
           >
             <Send className="w-4 h-4" />
-            Gửi
-          </button>
+            {t('actions.send')}
+          </motion.button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

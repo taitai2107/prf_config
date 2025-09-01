@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface LinkBadgeProps {
   badge: 'NEW' | 'HOT' | 'PRIVATE' | 'HIDDEN';
@@ -13,8 +14,19 @@ export function LinkBadge({ badge }: LinkBadgeProps) {
   };
 
   return (
-    <span className={`px-2 py-1 text-xs font-bold rounded-full ${badgeStyles[badge]}`}>
+    <motion.span 
+      className={`px-2 py-1 text-xs font-bold rounded-full ${badgeStyles[badge]}`}
+      animate={badge === 'HOT' ? { 
+        scale: [1, 1.05, 1],
+        rotate: [0, 1, -1, 0]
+      } : {}}
+      transition={badge === 'HOT' ? { 
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      } : {}}
+    >
       {badge}
-    </span>
+    </motion.span>
   );
 }

@@ -2,9 +2,9 @@
   "profile": {
     "name": "Nguyễn Công Khánh Tài",
     "bio": "gamer, coder, designer, creator",
-    "description": "0832597839 | tainguyencongkhanh@gmail.com",
+    "description": "⓿❽❸❷❺❾❼❽❸❾",
     "avatar": "https://res.cloudinary.com/doivdewue/image/upload/v1756521048/images_1_qc6a7g.jpg",
-    "location": "Hà Nội - Việt Nam",
+    "location": "Ha Noi - Viet Nam",
     "email": "tainguyencongkhanh@gmail.com",
     "phone": "0832597839",
     "status": "available"
@@ -82,14 +82,13 @@
           "description": "Gaming profile",
           "icon": "Gamepad2",
           "color": "#1b2838",
-          "deviceOnly": "desktop",
           "isActive": true,
           "healthStatus": "healthy"
         },
         {
           "id": "discord",
           "title": "Discord",
-          "url": "discord.com/users/586750741633302528",
+          "url": "https://discord.com/users/586750741633302528",
           "description": "Gaming community",
           "icon": "MessageSquare",
           "color": "#5865f2",

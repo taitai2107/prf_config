@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+public/music/**
+!public/music/playlist.json
+!public/music/.gitkeep   # nếu cần giữ thư mục trống
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

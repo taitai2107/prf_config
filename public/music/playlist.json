@@ -1,0 +1,33 @@
+{
+  "tracks": [
+   
+        {
+      "id": "track1",
+      "title": "Carefree(chosic.com)",
+      "artist": "Lo-Fi Beats",
+      "file": "Carefree(chosic.com).mp3"
+      
+        },
+            {
+      "id": "track2",
+      "title": "PeriTune_Alleyway-chosic.com_",
+      "artist": "Lo-Fi Beats",
+      "file": "PeriTune_Alleyway-chosic.com_.mp3"
+      
+    },
+        {
+      "id": "track3",
+      "title": "Roa-Haru-chosic.com_",
+      "artist": "Lo-Fi Beats",
+      "file": "Roa-Haru-chosic.com_.mp3"
+      
+    },
+        {
+      "id": "track4",
+      "title": "Swing-Machine-chosic.com_",
+      "artist": "Lo-Fi Beats",
+      "file": "Swing-Machine-chosic.com_.mp3"
+      
+    }
+  ]
+}

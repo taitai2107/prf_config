@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useImperativeHandle, forwardRef } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
 interface ThemeToggleProps {
@@ -6,7 +6,17 @@ interface ThemeToggleProps {
   onToggle: () => void;
 }
 
-export function ThemeToggle({ isDark, onToggle }: ThemeToggleProps) {
+export interface ThemeToggleRef {
+  toggle: () => void;
+}
+
+export const ThemeToggle = forwardRef<ThemeToggleRef, ThemeToggleProps>(
+  ({ isDark, onToggle }, ref) => {
+  
+  useImperativeHandle(ref, () => ({
+    toggle: onToggle
+  }));
+
   return (
     <button
       onClick={onToggle}
@@ -20,4 +30,6 @@ export function ThemeToggle({ isDark, onToggle }: ThemeToggleProps) {
       )}
     </button>
   );
-}
+});
+
+ThemeToggle.displayName = 'ThemeToggle';
