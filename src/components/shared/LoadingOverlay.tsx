@@ -82,7 +82,7 @@ export function LoadingOverlay({
                   transition={{ duration: 0.3, ease: 'backOut' }}
                 >
                   <Check className={`${isDark ? 'text-emerald-400' : 'text-emerald-600'} w-3.5 h-3.5`} />
-                </motion.div>
+                </motion.span>
               ) : (
                 <motion.div
                   className={`rounded-full border-2 border-t-transparent ${
@@ -92,7 +92,7 @@ export function LoadingOverlay({
                   animate={{ rotate: 360 }}
                   transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                 />
-                </motion.div>
+              )}
             </div>
           </div>
 
