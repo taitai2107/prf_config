@@ -73,21 +73,27 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
     setIsLoading(true);
     setLoadingProgress(0);
 
-    const interval = setInterval(() => {
-      setLoadingProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, LOADING_DURATION / 10);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setLoadingProgress(0);
-      openLink();
-    }, LOADING_DURATION);
+    // Smooth progress animation
+    const startTime = Date.now();
+    const updateProgress = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min((elapsed / LOADING_DURATION) * 100, 100);
+      
+      setLoadingProgress(progress);
+      
+      if (progress < 100) {
+        requestAnimationFrame(updateProgress);
+      } else {
+        // Wait a bit after reaching 100% to show the checkmark
+        setTimeout(() => {
+          setIsLoading(false);
+          setLoadingProgress(0);
+          openLink();
+        }, 300);
+      }
+    };
+    
+    requestAnimationFrame(updateProgress);
   };
 
   if (!shouldShowOnDevice()) return null;

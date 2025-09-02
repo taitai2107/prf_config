@@ -27,6 +27,8 @@ export function LoadingOverlay({
 
   const progressPercent = Math.max(0, Math.min(100, progress));
 
+  const isComplete = progressPercent >= 100;
+
   const ringBackground = useMemo(() => {
     const color1 = isDark ? '#60a5fa' : '#2563eb';
     const color2 = isDark ? '#a78bfa' : '#7c3aed';
@@ -49,8 +51,14 @@ export function LoadingOverlay({
       >
         <div className="text-center" style={{ maxWidth: 180 }}>
           <div className="relative mx-auto mb-2" style={{ width: config.ring, height: config.ring }}>
-            <div
+            <motion.div
               className="absolute inset-0 rounded-full"
+              animate={{ rotate: isComplete ? 0 : 360 }}
+              transition={{ 
+                duration: isComplete ? 0 : 1,
+                repeat: isComplete ? 0 : Infinity,
+                ease: 'linear'
+              }}
               style={{
                 background: ringBackground,
                 mask: 'radial-gradient(farthest-side, transparent 65%, #000 66%)',
@@ -67,40 +75,40 @@ export function LoadingOverlay({
                 height: config.hole,
               }}
             >
-              {progressPercent >= 100 ? (
+              {isComplete ? (
                 <motion.span 
                   initial={{ scale: 0, opacity: 0 }} 
                   animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'backOut' }}
                 >
                   <Check className={`${isDark ? 'text-emerald-400' : 'text-emerald-600'} w-3.5 h-3.5`} />
-                </motion.span>
+                </motion.div>
               ) : (
-                <motion.span
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                <motion.div
                   className={`rounded-full border-2 border-t-transparent ${
                     isDark ? 'border-blue-400' : 'border-blue-600'
                   }`}
                   style={{ width: config.spinner, height: config.spinner }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                 />
-              )}
+                </motion.div>
             </div>
           </div>
 
           <p className={`${config.textSize} font-medium truncate ${
             isDark ? 'text-slate-200' : 'text-slate-700'
           }`}>
-            Đang mở <span className="font-semibold">{linkTitle}</span>…
+            {isComplete ? 'Đang chuyển hướng...' : `Đang mở ${linkTitle}...`}
           </p>
 
           <div className={`${config.barWidth} h-1 rounded-full mt-2 mx-auto overflow-hidden ${
             isDark ? 'bg-slate-700' : 'bg-slate-200'
           }`}>
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
               className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500"
+              style={{ width: `${progressPercent}%` }}
+              transition={{ duration: 0.1, ease: 'easeOut' }}
             />
           </div>
         </div>

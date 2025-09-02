@@ -242,7 +242,9 @@ function App() {
             </motion.div>
           )}
           
-          <AnalyticsDashboard isDark={isDark} />
+          <div className="mt-8">
+            <AnalyticsDashboard isDark={isDark} />
+          </div>
           <ShareSection isDark={isDark} />
           <ContactForm email={data.profile.email} isDark={isDark} />
           
