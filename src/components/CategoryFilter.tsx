@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -17,20 +17,25 @@ export function CategoryFilter({
 }: CategoryFilterProps) {
   const { t } = useTranslation();
 
-  
-  const labelForCategory = (cat: string) => {
-    const key = cat.trim().toLowerCase();
-    switch (key) {
-      case 'professional':
-        return t('navigation.professional');
-      case 'personal':
-        return t('navigation.personal');
-      case 'gaming':
-        return t('navigation.gaming');
-      default:
-        return cat; 
-    }
+  const getCategoryLabel = (category: string) => {
+    const key = category.toLowerCase();
+    const labelMap: Record<string, string> = {
+      professional: t('navigation.professional'),
+      personal: t('navigation.personal'),
+      gaming: t('navigation.gaming'),
+    };
+    return labelMap[key] || category;
   };
+
+  const buttonClass = (isSelected: boolean) => `
+    px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap
+    ${isSelected
+      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
+      : isDark
+        ? 'bg-white/10 text-slate-300 hover:bg-white/20'
+        : 'bg-white/50 text-slate-600 hover:bg-white/80'
+    }
+  `;
 
   return (
     <motion.div
@@ -43,13 +48,7 @@ export function CategoryFilter({
         onClick={() => onCategoryChange('all')}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap ${
-          selectedCategory === 'all'
-            ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
-            : isDark
-              ? 'bg-white/10 text-slate-300 hover:bg-white/20'
-              : 'bg-white/50 text-slate-600 hover:bg-white/80'
-        }`}
+        className={buttonClass(selectedCategory === 'all')}
       >
         {t('navigation.all')}
       </motion.button>
@@ -63,15 +62,9 @@ export function CategoryFilter({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onCategoryChange(category)}
-          className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap ${
-            selectedCategory === category
-              ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
-              : isDark
-                ? 'bg-white/10 text-slate-300 hover:bg-white/20'
-                : 'bg-white/50 text-slate-600 hover:bg-white/80'
-          }`}
+          className={buttonClass(selectedCategory === category)}
         >
-          {labelForCategory(category)}
+          {getCategoryLabel(category)}
         </motion.button>
       ))}
     </motion.div>

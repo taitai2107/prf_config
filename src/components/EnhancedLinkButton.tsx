@@ -24,20 +24,16 @@ interface EnhancedLinkButtonProps {
 
 export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
   const { t } = useTranslation();
-
-  // --- state ---
   const [showQR, setShowQR] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showHoldTooltip, setShowHoldTooltip] = useState(false);
-
 
   const IconComponent: LucideIcon =
     ((LucideIcons as any)[item.icon] as LucideIcon) || (LucideIcons as any).Link;
 
   const { tiltStyle, tiltHandlers } = useMouseTilt(4);
   const { createRipple, RippleEffect } = useRipple();
-
 
   const isLinkActive = () => {
     if (item.isActive === false) return false;
@@ -49,20 +45,11 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
 
   const shouldShowOnDevice = () => {
     if (!item.deviceOnly) return true;
-    const deviceType = getDeviceType();
-    return item.deviceOnly === deviceType;
+    return item.deviceOnly === getDeviceType();
   };
 
-  
   const isActive = isLinkActive();
   const isScheduled = !!(item.endDate && new Date(item.endDate) > new Date());
-
-  const { touchHandlers } = useHoldGesture({
-    onHold: () => openLink(),
-    onHoldStart: () => setShowHoldTooltip(true),
-    onHoldEnd: () => setShowHoldTooltip(false),
-    disabled: !isActive,
-  });
 
   const openLink = () => {
     if (!isActive) return;
@@ -70,12 +57,18 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
     window.open(item.url, '_blank', 'noopener,noreferrer');
   };
 
+  const { touchHandlers } = useHoldGesture({
+    onHold: openLink,
+    onHoldStart: () => setShowHoldTooltip(true),
+    onHoldEnd: () => setShowHoldTooltip(false),
+    disabled: !isActive,
+  });
+
   const handleClick = (e: React.MouseEvent) => {
     if (!isActive) return;
 
-    // middle click / ctrl/cmd click → mở thẳng
-    const special = e.button === 1 || e.ctrlKey || e.metaKey;
-    if (special) {
+    const isSpecialClick = e.button === 1 || e.ctrlKey || e.metaKey;
+    if (isSpecialClick) {
       openLink();
       return;
     }
@@ -84,13 +77,13 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
     setIsLoading(true);
     setLoadingProgress(0);
 
-    const iv = setInterval(() => {
-      setLoadingProgress((p) => {
-        if (p >= 100) {
-          clearInterval(iv);
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
           return 100;
         }
-        return p + 10;
+        return prev + 10;
       });
     }, 100);
 
@@ -150,8 +143,8 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
               </div>
 
               <p className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-  {t(`link.${item.id}.description`, { defaultValue: item.description })}
-</p>
+                {t(`link.${item.id}.description`, { defaultValue: item.description })}
+              </p>
 
               {!isActive && isScheduled && item.endDate && (
                 <CountdownTimer endDate={item.endDate} isDark={isDark} />
@@ -164,7 +157,6 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
               )}
             </div>
 
-           
             {isActive && (
               <button
                 type="button"

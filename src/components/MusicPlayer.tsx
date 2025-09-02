@@ -12,9 +12,8 @@ interface MusicPlayerProps {
   isDark: boolean;
 }
 
-// 👇 helper: build URL tĩnh theo BASE_URL của Vite (hỗ trợ deploy dưới subpath)
 const BASE = import.meta.env.BASE_URL || '/';
-const staticUrl = (p: string) => `${BASE}${p.replace(/^\/+/, '')}`;
+const staticUrl = (path: string) => `${BASE}${path.replace(/^\/+/, '')}`;
 
 export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -41,32 +40,33 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
     audioRef,
   } = useMusicPlayer(tracks, { loop: true });
 
-  // Load playlist
   useEffect(() => {
+    if (!isOpen) return;
+
     const loadPlaylist = async () => {
       try {
         const response = await fetch(staticUrl('music/playlist.json'));
         if (!response.ok) throw new Error(`HTTP ${response.status}: Không thể tải playlist`);
 
-        const raw = await response.json();
-        const normalized: Track[] = (raw.tracks || []).map((t: any, i: number) => ({
-          id: t.id ?? `t${i + 1}`,
-          title: t.title ?? `Track ${i + 1}`,
-          artist: t.artist ?? 'Unknown',
-          file: t.file,                   // có thể là URL Cloudinary hoặc tên file
-          duration: Number(t.duration) || 0,
+        const data = await response.json();
+        const normalizedTracks: Track[] = (data.tracks || []).map((track: any, index: number) => ({
+          id: track.id ?? `track-${index + 1}`,
+          title: track.title ?? `Track ${index + 1}`,
+          artist: track.artist ?? 'Unknown Artist',
+          file: track.file,
+          duration: Number(track.duration) || 0,
         }));
 
-        if (normalized.length === 0) throw new Error('Playlist trống');
+        if (normalizedTracks.length === 0) throw new Error('Playlist trống');
 
-        setTracks(normalized);
+        setTracks(normalizedTracks);
         setPlaylistError(null);
       } catch (err) {
         setPlaylistError(err instanceof Error ? err.message : 'Lỗi không xác định');
       }
     };
 
-    if (isOpen) loadPlaylist();
+    loadPlaylist();
   }, [isOpen]);
 
   const formatTime = (time: number) => {
@@ -76,42 +76,32 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    seek(parseFloat(e.target.value));
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    changeVolume(parseFloat(e.target.value));
-  };
-
   const reloadPlaylist = () => {
     setPlaylistError(null);
     setTracks([]);
-    (async () => {
-      try {
-        const response = await fetch(staticUrl(`music/playlist.json?t=${Date.now()}`));
-        const raw = await response.json();
-        setTracks((raw.tracks || []) as Track[]);
-      } catch (err) {
-        setPlaylistError(err instanceof Error ? err.message : 'Lỗi tải playlist');
-      }
-    })();
+    
+    fetch(staticUrl(`music/playlist.json?t=${Date.now()}`))
+      .then(res => res.json())
+      .then(data => setTracks(data.tracks || []))
+      .catch(err => setPlaylistError(err.message || 'Lỗi tải playlist'));
   };
 
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <>
-      {/* audio luôn tồn tại ngay cả khi đóng modal */}
       <audio ref={audioRef} preload="metadata" crossOrigin="anonymous" />
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           >
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+            
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -124,7 +114,9 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <Music className={`w-6 h-6 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
-                  <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>Trình phát nhạc</h2>
+                  <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                    Trình phát nhạc
+                  </h2>
                 </div>
                 <button
                   onClick={onClose}
@@ -159,12 +151,6 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                 </div>
               )}
 
-              <div className={`p-3 rounded-xl mb-4 text-xs ${isDark ? 'bg-white/5 text-slate-400' : 'bg-slate-50 text-slate-600'}`}>
-                <p>Tracks loaded: {tracks.length}</p>
-                <p>Current track: {'None'}</p>
-                <p>Ready state: {audioRef.current?.readyState || 'Unknown'}</p>
-              </div>
-
               {tracks.length === 0 ? (
                 <div className="text-center py-8">
                   <Music className={`w-12 h-12 mx-auto mb-4 ${isDark ? 'text-slate-600' : 'text-slate-400'}`} />
@@ -174,6 +160,7 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                 </div>
               ) : (
                 <>
+                  {/* Current Track Display */}
                   <div className={`${isDark ? 'bg-white/5' : 'bg-slate-50'} p-4 rounded-xl mb-4`}>
                     <div className="flex items-center gap-3">
                       <div className={`${isDark ? 'bg-gradient-to-br from-purple-500/20 to-blue-500/20' : 'bg-gradient-to-br from-purple-100 to-blue-100'} w-12 h-12 rounded-xl flex items-center justify-center`}>
@@ -190,6 +177,7 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                     </div>
                   </div>
 
+                  {/* Progress Bar */}
                   <div className="mb-4">
                     <div className={`relative h-2 rounded-full mb-2 ${isDark ? 'bg-slate-700' : 'bg-slate-200'}`}>
                       <motion.div
@@ -202,24 +190,31 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                         min={0}
                         max={duration || 0}
                         value={currentTime}
-                        onChange={handleSeek}
+                        onChange={(e) => seek(parseFloat(e.target.value))}
                         disabled={!currentTrack || isLoading}
-                        className="absolute inset-0 z-10 w-full h-6 opacity-0 cursor-pointer appearance-none"
+                        className="absolute inset-0 z-10 w-full h-6 opacity-0 cursor-pointer"
                       />
                     </div>
-                    <div className="flex justify-between text-xs mt-1">
-                      <span className={isDark ? 'text-slate-400' : 'text-slate-600'}>{formatTime(currentTime)}</span>
-                      <span className={isDark ? 'text-slate-400' : 'text-slate-600'}>{formatTime(duration)}</span>
+                    <div className="flex justify-between text-xs">
+                      <span className={isDark ? 'text-slate-400' : 'text-slate-600'}>
+                        {formatTime(currentTime)}
+                      </span>
+                      <span className={isDark ? 'text-slate-400' : 'text-slate-600'}>
+                        {formatTime(duration)}
+                      </span>
                     </div>
                   </div>
 
+                  {/* Controls */}
                   <div className="flex items-center justify-center gap-4 mb-4">
                     <motion.button
                       onClick={prevTrack}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       disabled={tracks.length <= 1}
-                      className={`p-3 rounded-full transition-colors disabled:opacity-50 ${isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
+                      className={`p-3 rounded-full transition-colors disabled:opacity-50 ${
+                        isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'
+                      }`}
                     >
                       <SkipBack className="w-5 h-5" />
                     </motion.button>
@@ -229,13 +224,20 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       disabled={isLoading || !currentTrack}
-                      className="p-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-4 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 transition-all duration-300 disabled:opacity-50"
                     >
                       {isLoading ? (
-                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
+                        <motion.div 
+                          animate={{ rotate: 360 }} 
+                          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                        >
                           <RefreshCw className="w-6 h-6" />
                         </motion.div>
-                      ) : isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
+                      ) : isPlaying ? (
+                        <Pause className="w-6 h-6" />
+                      ) : (
+                        <Play className="w-6 h-6 ml-0.5" />
+                      )}
                     </motion.button>
 
                     <motion.button
@@ -243,18 +245,23 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       disabled={tracks.length <= 1}
-                      className={`p-3 rounded-full transition-colors disabled:opacity-50 ${isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
+                      className={`p-3 rounded-full transition-colors disabled:opacity-50 ${
+                        isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'
+                      }`}
                     >
                       <SkipForward className="w-5 h-5" />
                     </motion.button>
                   </div>
 
+                  {/* Volume Control */}
                   <div className="flex items-center gap-3 mb-4">
                     <motion.button
                       onClick={toggleMute}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className={`p-2 rounded-full transition-colors ${isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'}`}
+                      className={`p-2 rounded-full transition-colors ${
+                        isDark ? 'hover:bg-white/10 text-white' : 'hover:bg-slate-100 text-slate-800'
+                      }`}
                     >
                       {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                     </motion.button>
@@ -268,7 +275,12 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                         />
                       </div>
                       <input
-                        type="range" min="0" max="1" step="0.05" value={volume} onChange={handleVolumeChange}
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={volume}
+                        onChange={(e) => changeVolume(parseFloat(e.target.value))}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
                     </div>
@@ -278,9 +290,11 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                     </span>
                   </div>
 
+                  {/* Playlist Toggle */}
                   <motion.button
                     onClick={() => setShowPlaylist(!showPlaylist)}
-                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     className={`w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl transition-all duration-300 mb-4 ${
                       isDark ? 'bg-white/10 hover:bg-white/15 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
                     }`}
@@ -291,6 +305,7 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                     </span>
                   </motion.button>
 
+                  {/* Playlist */}
                   <AnimatePresence>
                     {showPlaylist && (
                       <motion.div
@@ -305,7 +320,8 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                             <motion.button
                               key={track.id}
                               onClick={() => setTrack(index)}
-                              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
                               className={`w-full text-left p-3 rounded-lg transition-all duration-300 ${
                                 index === currentTrackIndex
                                   ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30'
@@ -320,14 +336,21 @@ export function MusicPlayer({ isOpen, onClose, isDark }: MusicPlayerProps) {
                                                                        : 'bg-slate-200 text-slate-600'
                                 }`}>
                                   {index === currentTrackIndex && isPlaying ? (
-                                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1, repeat: Infinity }}>
+                                    <motion.div 
+                                      animate={{ scale: [1, 1.2, 1] }} 
+                                      transition={{ duration: 1, repeat: Infinity }}
+                                    >
                                       <Music className="w-4 h-4" />
                                     </motion.div>
-                                  ) : <span>{index + 1}</span>}
+                                  ) : (
+                                    <span>{index + 1}</span>
+                                  )}
                                 </div>
 
                                 <div className="flex-1 min-w-0">
-                                  <p className={`font-medium text-sm truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>{track.title}</p>
+                                  <p className={`font-medium text-sm truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                    {track.title}
+                                  </p>
                                   <p className={`text-xs truncate ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                                     {track.artist} • {formatTime(track.duration)}
                                   </p>
