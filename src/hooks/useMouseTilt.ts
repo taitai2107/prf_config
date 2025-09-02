@@ -11,19 +11,15 @@ export function useMouseTilt(maxTilt: number = 6) {
   const throttleRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!elementRef.current) return;
-
-    // Check for reduced motion preference
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!elementRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
 
-    // Throttle for performance
     if (throttleRef.current) return;
     
     throttleRef.current = setTimeout(() => {
       throttleRef.current = null;
-    }, 16); // ~60fps
+    }, 16);
 
     const rect = elementRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -42,13 +38,11 @@ export function useMouseTilt(maxTilt: number = 6) {
     setTilt({ rotateX: 0, rotateY: 0 });
   }, []);
 
-  const tiltStyle = {
-    transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
-    transition: 'transform 0.1s ease-out'
-  };
-
   return {
-    tiltStyle,
+    tiltStyle: {
+      transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+      transition: 'transform 0.1s ease-out'
+    },
     tiltHandlers: {
       onMouseMove: handleMouseMove,
       onMouseLeave: handleMouseLeave,

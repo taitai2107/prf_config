@@ -27,7 +27,6 @@ export function useRipple() {
     
     setRipple({ x, y, isActive: true });
     
-    // Reset ripple after animation
     setTimeout(() => {
       setRipple(prev => ({ ...prev, isActive: false }));
     }, 300);
@@ -51,8 +50,5 @@ export function useRipple() {
     );
   };
 
-  return {
-    createRipple,
-    RippleEffect
-  };
+  return { createRipple, RippleEffect };
 }

@@ -1,17 +1,16 @@
 import { AnalyticsData } from '../types';
-
-const ANALYTICS_KEY = 'linktree_analytics';
+import { STORAGE_KEYS } from '../constants';
 
 export function getAnalytics(): AnalyticsData {
   try {
-    const data = localStorage.getItem(ANALYTICS_KEY);
+    const data = localStorage.getItem(STORAGE_KEYS.ANALYTICS);
     return data ? JSON.parse(data) : {};
   } catch {
     return {};
   }
 }
 
-export function trackClick(slug: string, device: 'mobile' | 'desktop', referrer: string = 'direct') {
+export function trackClick(slug: string, device: 'mobile' | 'desktop', referrer: string = 'direct'): void {
   const analytics = getAnalytics();
   const today = new Date().toISOString().split('T')[0];
   
@@ -29,7 +28,7 @@ export function trackClick(slug: string, device: 'mobile' | 'desktop', referrer:
   analytics[slug].devices[device]++;
   analytics[slug].referrers[referrer] = (analytics[slug].referrers[referrer] || 0) + 1;
   
-  localStorage.setItem(ANALYTICS_KEY, JSON.stringify(analytics));
+  localStorage.setItem(STORAGE_KEYS.ANALYTICS, JSON.stringify(analytics));
 }
 
 export function exportAnalyticsCSV(): string {
@@ -47,8 +46,8 @@ export function exportAnalyticsCSV(): string {
   return rows.join('\n');
 }
 
-export function downloadCSV(filename: string, csvContent: string) {
-  const blob = new Blob([csvContent], { type: 'text/csv' });
+export function downloadFile(filename: string, content: string, type: string = 'text/plain'): void {
+  const blob = new Blob([content], { type });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

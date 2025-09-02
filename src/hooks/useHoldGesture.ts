@@ -1,4 +1,5 @@
 import { useRef, useCallback } from 'react';
+import { HOLD_DURATION } from '../constants';
 
 interface UseHoldGestureOptions {
   onHold: () => void;
@@ -12,7 +13,7 @@ export function useHoldGesture({
   onHold,
   onHoldStart,
   onHoldEnd,
-  holdDuration = 500,
+  holdDuration = HOLD_DURATION,
   disabled = false
 }: UseHoldGestureOptions) {
   const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -24,7 +25,6 @@ export function useHoldGesture({
     isHoldingRef.current = true;
     onHoldStart?.();
 
-    // Vibrate on supported devices
     if ('vibrate' in navigator) {
       navigator.vibrate(10);
     }
@@ -32,7 +32,6 @@ export function useHoldGesture({
     holdTimerRef.current = setTimeout(() => {
       if (isHoldingRef.current) {
         onHold();
-        // Stronger vibration on hold complete
         if ('vibrate' in navigator) {
           navigator.vibrate([20, 10, 20]);
         }
@@ -52,15 +51,13 @@ export function useHoldGesture({
     }
   }, [onHoldEnd]);
 
-  const touchHandlers = {
-    onTouchStart: startHold,
-    onTouchEnd: endHold,
-    onTouchCancel: endHold,
-    onTouchMove: endHold, // Cancel on move
-  };
-
   return {
-    touchHandlers,
+    touchHandlers: {
+      onTouchStart: startHold,
+      onTouchEnd: endHold,
+      onTouchCancel: endHold,
+      onTouchMove: endHold,
+    },
     isHolding: isHoldingRef.current
   };
 }

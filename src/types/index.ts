@@ -10,8 +10,6 @@ export interface LinkItem {
   endDate?: string;
   isActive?: boolean;
   deviceOnly?: 'mobile' | 'desktop';
-  isProtected?: boolean;
-  password?: string;
   clicks?: number;
   healthStatus?: 'healthy' | 'warning' | 'error';
 }
@@ -21,32 +19,38 @@ export interface LinkCategory {
   items: LinkItem[];
 }
 
+export interface Profile {
+  name: string;
+  bio: string;
+  description: string;
+  avatar: string;
+  location: string;
+  email: string;
+  phone: string;
+  status: 'available' | 'busy';
+}
+
+export interface SocialMedia {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+export interface Settings {
+  siteName: string;
+  copyright: string;
+  enableAnalytics: boolean;
+  theme: {
+    primaryColor: string;
+    accentColor: string;
+  };
+}
+
 export interface ProfileData {
-  profile: {
-    name: string;
-    bio: string;
-    description: string;
-    avatar: string;
-    location: string;
-    email: string;
-    phone: string;
-    status: 'available' | 'busy';
-  };
+  profile: Profile;
   links: LinkCategory[];
-  socialMedia: Array<{
-    platform: string;
-    url: string;
-    icon: string;
-  }>;
-  settings: {
-    siteName: string;
-    copyright: string;
-    enableAnalytics: boolean;
-    theme: {
-      primaryColor: string;
-      accentColor: string;
-    };
-  };
+  socialMedia: SocialMedia[];
+  settings: Settings;
 }
 
 export interface AnalyticsData {
@@ -56,4 +60,12 @@ export interface AnalyticsData {
     devices: { mobile: number; desktop: number };
     referrers: { [referrer: string]: number };
   };
+}
+
+export interface Track {
+  id: string;
+  title: string;
+  artist: string;
+  file: string;
+  duration: number;
 }

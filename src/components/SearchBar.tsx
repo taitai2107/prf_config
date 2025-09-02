@@ -2,6 +2,7 @@ import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Search, X } from 'lucide-react';
+import { ANIMATION_DELAYS } from '../constants';
 
 interface SearchBarProps {
   searchTerm: string;
@@ -20,9 +21,7 @@ export const SearchBar = forwardRef<SearchBarRef, SearchBarProps>(
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current?.focus();
-    }
+    focus: () => inputRef.current?.focus()
   }));
 
   return (
@@ -30,14 +29,14 @@ export const SearchBar = forwardRef<SearchBarRef, SearchBarProps>(
       className="relative mb-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.8 }}
+      transition={{ duration: 0.5, delay: ANIMATION_DELAYS.SEARCH }}
     >
       <motion.div 
         className={`relative rounded-2xl backdrop-blur-md border ${
-        isDark
-          ? 'bg-white/5 border-white/10'
-          : 'bg-white/70 border-white/30'
-      }`}
+          isDark
+            ? 'bg-white/5 border-white/10'
+            : 'bg-white/70 border-white/30'
+        }`}
         animate={{ scale: isFocused ? 1.02 : 1 }}
         transition={{ duration: 0.2 }}
       >

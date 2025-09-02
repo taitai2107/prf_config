@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { ANIMATION_DELAYS } from '../constants';
 
 interface CategoryFilterProps {
   categories: string[];
@@ -27,7 +28,7 @@ export function CategoryFilter({
     return labelMap[key] || category;
   };
 
-  const buttonClass = (isSelected: boolean) => `
+  const getButtonClasses = (isSelected: boolean) => `
     px-4 py-2 rounded-xl font-medium transition-all duration-300 whitespace-nowrap
     ${isSelected
       ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg'
@@ -42,13 +43,13 @@ export function CategoryFilter({
       className="flex gap-2 mb-6 overflow-x-auto pb-2"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: 0.9 }}
+      transition={{ duration: 0.5, delay: ANIMATION_DELAYS.CATEGORY }}
     >
       <motion.button
         onClick={() => onCategoryChange('all')}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={buttonClass(selectedCategory === 'all')}
+        className={getButtonClasses(selectedCategory === 'all')}
       >
         {t('navigation.all')}
       </motion.button>
@@ -58,11 +59,11 @@ export function CategoryFilter({
           key={category}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 1.0 + index * 0.1 }}
+          transition={{ duration: 0.3, delay: ANIMATION_DELAYS.CATEGORY + 0.1 + index * 0.1 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onCategoryChange(category)}
-          className={buttonClass(selectedCategory === category)}
+          className={getButtonClasses(selectedCategory === category)}
         >
           {getCategoryLabel(category)}
         </motion.button>

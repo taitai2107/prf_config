@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, RefreshCw } from 'lucide-react';
 
 interface LoadingOverlayProps {
   isVisible: boolean;

@@ -1,12 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-
-export interface Track {
-  id: string;
-  title: string;
-  artist: string;
-  file: string;      // tên file hoặc URL tuyệt đối (Cloudinary)
-  duration: number;
-}
+import { Track } from '../types';
 
 interface UseMusicPlayerOptions {
   autoPlay?: boolean;
@@ -34,7 +27,7 @@ export function useMusicPlayer(tracks: Track[], options: UseMusicPlayerOptions =
   const audioRef = useRef<HTMLAudioElement>(null);
   const currentTrack = tracks[currentTrackIndex];
 
-  // cập nhật src khi đổi bài
+  // Update audio source when track changes
   useEffect(() => {
     if (audioRef.current && currentTrack) {
       const audio = audioRef.current;
@@ -59,62 +52,47 @@ export function useMusicPlayer(tracks: Track[], options: UseMusicPlayerOptions =
     }
   }, [currentTrack, autoPlay]);
 
-  // event handlers
+  // Audio event handlers
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-      setIsLoading(false);
-      setError(null);
+    const handlers = {
+      loadedmetadata: () => {
+        setDuration(audio.duration);
+        setIsLoading(false);
+        setError(null);
+      },
+      timeupdate: () => setCurrentTime(audio.currentTime),
+      ended: () => {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        setIsPlaying(true);
+      },
+      canplay: () => { setIsLoading(false); setError(null); },
+      waiting: () => setIsLoading(true),
+      playing: () => { setIsLoading(false); setIsPlaying(true); },
+      pause: () => setIsPlaying(false),
+      error: () => {
+        setIsLoading(false);
+        setIsPlaying(false);
+        setError('Không thể tải file nhạc');
+      },
+      loadstart: () => setIsLoading(true),
     };
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
 
-    // hiện đang lặp lại cùng bài; muốn loop playlist thì gọi nextTrack()
-    const handleEnded = () => {
-      const a = audioRef.current;
-      if (!a) return;
-      a.currentTime = 0;
-      a.play().catch(() => {});
-      setIsPlaying(true);
-    };
-
-    const handleCanPlay = () => { setIsLoading(false); setError(null); };
-    const handleWaiting = () => setIsLoading(true);
-    const handlePlaying = () => { setIsLoading(false); setIsPlaying(true); };
-    const handlePause = () => setIsPlaying(false);
-    const handleError = () => {
-      setIsLoading(false);
-      setIsPlaying(false);
-      setError('Không thể tải file nhạc. Vui lòng kiểm tra URL/tên file.');
-    };
-    const handleLoadStart = () => setIsLoading(true);
-
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('waiting', handleWaiting);
-    audio.addEventListener('playing', handlePlaying);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('loadstart', handleLoadStart);
+    Object.entries(handlers).forEach(([event, handler]) => {
+      audio.addEventListener(event, handler);
+    });
 
     return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('waiting', handleWaiting);
-      audio.removeEventListener('playing', handlePlaying);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('loadstart', handleLoadStart);
+      Object.entries(handlers).forEach(([event, handler]) => {
+        audio.removeEventListener(event, handler);
+      });
     };
   }, []);
 
-  // volume & mute
+  // Volume and mute control
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
@@ -125,7 +103,6 @@ export function useMusicPlayer(tracks: Track[], options: UseMusicPlayerOptions =
   const play = useCallback(async () => {
     if (audioRef.current && currentTrack) {
       try {
-        // KHÔNG HEAD check để tránh CORS với Cloudinary
         await audioRef.current.play();
         setIsPlaying(true);
         setError(null);
@@ -144,7 +121,8 @@ export function useMusicPlayer(tracks: Track[], options: UseMusicPlayerOptions =
   }, []);
 
   const togglePlay = useCallback(() => {
-    if (isPlaying) pause(); else play();
+    if (isPlaying) pause(); 
+    else play();
   }, [isPlaying, play, pause]);
 
   const nextTrack = useCallback(() => {
@@ -185,9 +163,24 @@ export function useMusicPlayer(tracks: Track[], options: UseMusicPlayerOptions =
   const changeVolume = useCallback((v: number) => setVolume(Math.max(0, Math.min(1, v))), []);
 
   return {
-    currentTrack, currentTrackIndex, isPlaying, currentTime, duration,
-    volume, isMuted, isLoading, error,
-    play, pause, togglePlay, nextTrack, prevTrack, seek, setTrack, toggleMute, changeVolume,
+    currentTrack,
+    currentTrackIndex,
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    isMuted,
+    isLoading,
+    error,
+    play,
+    pause,
+    togglePlay,
+    nextTrack,
+    prevTrack,
+    seek,
+    setTrack,
+    toggleMute,
+    changeVolume,
     audioRef,
   };
 }

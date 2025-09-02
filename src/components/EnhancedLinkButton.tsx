@@ -6,16 +6,12 @@ import type { LucideIcon } from 'lucide-react';
 import { AlertTriangle, QrCode } from 'lucide-react';
 
 import { LinkItem } from '../types';
-import { LinkBadge } from './LinkBadge';
-import { CountdownTimer } from './CountdownTimer';
-import { QRModal } from './QRModal';
-import { LoadingOverlay } from './LoadingOverlay';
-import { HoldTooltip } from './HoldTooltip';
-import { getDeviceType } from '../utils/device';
-import { trackClick } from '../utils/analytics';
+import { LinkBadge, CountdownTimer, QRModal, LoadingOverlay, HoldTooltip } from './shared';
+import { getDeviceType, trackClick } from '../utils';
 import { useHoldGesture } from '../hooks/useHoldGesture';
 import { useMouseTilt } from '../hooks/useMouseTilt';
 import { useRipple } from '../hooks/useRipple';
+import { LOADING_DURATION } from '../constants';
 
 interface EnhancedLinkButtonProps {
   item: LinkItem;
@@ -85,13 +81,13 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
         }
         return prev + 10;
       });
-    }, 100);
+    }, LOADING_DURATION / 10);
 
     setTimeout(() => {
       setIsLoading(false);
       setLoadingProgress(0);
       openLink();
-    }, 2000);
+    }, LOADING_DURATION);
   };
 
   if (!shouldShowOnDevice()) return null;
@@ -110,11 +106,11 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
           {...tiltHandlers}
           disabled={!isActive}
           style={tiltStyle}
-          className={`relative overflow-hidden w-full p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 hover:shadow-xl ${
+          className={`relative overflow-hidden w-full p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 ${
             isActive
               ? isDark
-                ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-blue-500/20'
-                : 'bg-white/70 border-white/30 hover:bg-white/90 hover:border-white/50 hover:shadow-blue-500/10'
+                ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-xl hover:shadow-blue-500/20'
+                : 'bg-white/70 border-white/30 hover:bg-white/90 hover:border-white/50 hover:shadow-xl hover:shadow-blue-500/10'
               : 'opacity-50 cursor-not-allowed bg-gray-500/20 border-gray-500/30'
           }`}
         >
@@ -164,7 +160,7 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
                   e.stopPropagation();
                   setShowQR(true);
                 }}
-                className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 hover:shadow-lg ${
+                className={`absolute top-2 right-2 p-2 rounded-full backdrop-blur-md border transition-all duration-300 opacity-0 group-hover:opacity-100 ${
                   isDark
                     ? 'bg-slate-800/80 border-white/20 text-white hover:bg-slate-700/80'
                     : 'bg-white/80 border-slate-200 text-slate-600 hover:bg-white'
@@ -183,7 +179,11 @@ export function EnhancedLinkButton({ item, isDark }: EnhancedLinkButtonProps) {
           />
         </motion.button>
 
-        <HoldTooltip isVisible={showHoldTooltip} text={t('actions.holdToOpen')} isDark={isDark} />
+        <HoldTooltip 
+          isVisible={showHoldTooltip} 
+          text={t('actions.holdToOpen')} 
+          isDark={isDark} 
+        />
       </motion.div>
 
       <QRModal

@@ -32,7 +32,6 @@ export function CountdownTimer({ endDate, isDark }: CountdownTimerProps) {
 
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
-
     return () => clearInterval(timer);
   }, [endDate]);
 

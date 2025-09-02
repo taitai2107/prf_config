@@ -1,3 +1,5 @@
+import { downloadFile, slugify } from './index';
+
 interface VCardData {
   name: string;
   phone: string;
@@ -21,14 +23,6 @@ export function generateVCard(data: VCardData): string {
   return vcard;
 }
 
-export function downloadVCard(vcard: string, filename: string) {
-  const blob = new Blob([vcard], { type: 'text/vcard' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${filename}.vcf`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(url);
+export function downloadVCard(vcard: string, filename: string): void {
+  downloadFile(`${slugify(filename)}.vcf`, vcard, 'text/vcard');
 }

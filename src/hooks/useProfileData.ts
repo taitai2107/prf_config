@@ -1,39 +1,5 @@
 import { useState, useEffect } from 'react';
-
-export interface ProfileData {
-  profile: {
-    name: string;
-    bio: string;
-    description: string;
-    avatar: string;
-    location: string;
-    email: string;
-  };
-  links: Array<{
-    category: string;
-    items: Array<{
-      title: string;
-      url: string;
-      description: string;
-      icon: string;
-      color: string;
-    }>;
-  }>;
-  socialMedia: Array<{
-    platform: string;
-    url: string;
-    icon: string;
-  }>;
-  settings: {
-    siteName: string;
-    copyright: string;
-    enableAnalytics: boolean;
-    theme: {
-      primaryColor: string;
-      accentColor: string;
-    };
-  };
-}
+import { ProfileData } from '../types';
 
 export function useProfileData() {
   const [data, setData] = useState<ProfileData | null>(null);
@@ -45,7 +11,7 @@ export function useProfileData() {
       try {
         const response = await fetch('/data.json');
         if (!response.ok) {
-          throw new Error('Failed to load profile data');
+          throw new Error(`HTTP ${response.status}: Failed to load profile data`);
         }
         const profileData = await response.json();
         setData(profileData);

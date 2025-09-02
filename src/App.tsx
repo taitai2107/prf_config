@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Toaster } from 'react-hot-toast';
@@ -23,23 +23,26 @@ import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 import { Footer } from './components/Footer';
 import { HelpModal } from './components/HelpModal';
 
+import { STORAGE_KEYS, ANIMATION_DELAYS } from './constants';
 import './i18n';
 
 function App() {
   const { t } = useTranslation();
-  const [isDark, setIsDark] = useLocalStorage('darkMode', false);
+  const [isDark, setIsDark] = useLocalStorage(STORAGE_KEYS.DARK_MODE, false);
   const [showSplash, setShowSplash] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showHelp, setShowHelp] = useState(false);
-  const [userStatus, setUserStatus] = useLocalStorage<'available' | 'busy'>('userStatus', 'available');
+  const [userStatus, setUserStatus] = useLocalStorage<'available' | 'busy'>(STORAGE_KEYS.USER_STATUS, 'available');
   
-  const searchBarRef = React.useRef<SearchBarRef>(null);
-  const themeToggleRef = React.useRef<ThemeToggleRef>(null);
-  const languageToggleRef = React.useRef<LanguageToggleRef>(null);
+  const searchBarRef = useRef<SearchBarRef>(null);
+  const themeToggleRef = useRef<ThemeToggleRef>(null);
+  const languageToggleRef = useRef<LanguageToggleRef>(null);
+
+  const { data, loading, error } = useProfileData();
 
   // Auto-update status based on time
-  React.useEffect(() => {
+  useEffect(() => {
     const updateStatusByTime = () => {
       const hour = new Date().getHours();
       setUserStatus(hour >= 8 && hour < 17 ? 'available' : 'busy');
@@ -50,7 +53,17 @@ function App() {
     return () => clearInterval(interval);
   }, [setUserStatus]);
 
-  const { data, loading, error } = useProfileData();
+  // Update document title and handle reduced motion
+  useEffect(() => {
+    if (data?.settings.siteName) {
+      document.title = data.settings.siteName;
+    }
+    
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      document.documentElement.style.setProperty('--animation-duration', '0.1s');
+    }
+  }, [data]);
 
   const filteredLinks = useMemo(() => {
     if (!data) return [];
@@ -80,7 +93,7 @@ function App() {
 
   const keyboardActions = {
     onToggleHelp: () => setShowHelp(!showHelp),
-    onToggleTheme: () => setIsDark(!isDark),
+    onToggleTheme: () => themeToggleRef.current?.toggle(),
     onToggleLanguage: () => languageToggleRef.current?.toggle(),
     onFocusSearch: () => searchBarRef.current?.focus(),
     onSelectCategory: setSelectedCategory,
@@ -96,17 +109,6 @@ function App() {
       document.querySelector('#contact-form')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  React.useEffect(() => {
-    if (data?.settings.siteName) {
-      document.title = data.settings.siteName;
-    }
-    
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
-      document.documentElement.style.setProperty('--animation-duration', '0.1s');
-    }
-  }, [data]);
 
   if (loading) {
     return (
@@ -153,21 +155,11 @@ function App() {
         transition={{ duration: 0.5 }}
       >
         {/* Background Pattern */}
-        <motion.div 
-          className="absolute inset-0 opacity-30"
-          animate={{
-            background: [
-              'radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%)'
-            ]
-          }}
-          transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
-        >
+        <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,theme(colors.blue.500/10),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,theme(colors.purple.500/10),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,theme(colors.pink.500/5),transparent_50%)]" />
-        </motion.div>
+        </div>
 
         <ThemeToggle ref={themeToggleRef} isDark={isDark} onToggle={() => setIsDark(!isDark)} />
         <LanguageToggle ref={languageToggleRef} isDark={isDark} />
@@ -217,7 +209,7 @@ function App() {
                 key={categoryIndex}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.2 + categoryIndex * 0.1 }}
+                transition={{ duration: 0.5, delay: ANIMATION_DELAYS.LINKS + categoryIndex * 0.1 }}
               >
                 {filteredLinks.length > 1 && (
                   <h2 className={`text-xl font-bold mb-4 text-center ${
@@ -252,10 +244,7 @@ function App() {
           
           <AnalyticsDashboard isDark={isDark} />
           <ShareSection isDark={isDark} />
-          
-          <div id="contact-form">
-            <ContactForm email={data.profile.email} isDark={isDark} />
-          </div>
+          <ContactForm email={data.profile.email} isDark={isDark} />
           
           <Footer 
             socialMedia={data.socialMedia} 

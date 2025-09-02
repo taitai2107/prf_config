@@ -2,15 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { UserPlus } from 'lucide-react';
-import { generateVCard, downloadVCard } from '../utils/vcard';
+import { Profile } from '../types';
+import { generateVCard, downloadVCard } from '../utils';
+import { ANIMATION_DELAYS } from '../constants';
 import toast from 'react-hot-toast';
 
 interface VCardButtonProps {
-  profile: {
-    name: string;
-    phone: string;
-    email: string;
-  };
+  profile: Pick<Profile, 'name' | 'phone' | 'email'>;
   isDark: boolean;
 }
 
@@ -26,7 +24,7 @@ export function VCardButton({ profile, isDark }: VCardButtonProps) {
       organization: 'Personal'
     });
     
-    downloadVCard(vcard, profile.name.replace(/\s+/g, '_'));
+    downloadVCard(vcard, profile.name);
     toast.success(t('share.vcardDownloaded'));
   };
 
@@ -37,7 +35,7 @@ export function VCardButton({ profile, isDark }: VCardButtonProps) {
       whileTap={{ scale: 0.98 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 1.1 }}
+      transition={{ duration: 0.5, delay: ANIMATION_DELAYS.VCARD }}
       className={`w-full p-4 rounded-2xl backdrop-blur-md border transition-all duration-300 hover:shadow-xl flex items-center justify-center gap-3 ${
         isDark
           ? 'bg-white/5 border-white/10 hover:bg-white/10 text-white'
